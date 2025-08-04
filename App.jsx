@@ -2,16 +2,31 @@ import { NewAppScreen } from '@react-native/new-app-screen';
 import { useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import CurvedTabBar from './src/navigations/CurvedTabBar';
+import Colors from './src/constants/colors';
+
+import BloodRecordScreen from './src/screens/BloodRecordScreen';
+import ChartScreen from './src/screens/ChartScreen';
+import MainScreen from './src/screens/MainScreen';
+import MenuRecordScreen from './src/screens/MenuRecordScreen';
+
+const TAB_SCREENS = {
+	main: MainScreen,
+	blood: BloodRecordScreen,
+	menu: MenuRecordScreen,
+	chart: ChartScreen,
+};
 
 function App() {
-	const isDarkMode = useColorScheme() === 'dark';
+	const colorScheme = useColorScheme();
 
-	const [activeKey, setActiveKey] = useState("camera");
+	const [activeKey, setActiveKey] = useState("main");
+	const ActiveScreen = TAB_SCREENS[activeKey];
+	// const theme = Colors[colorScheme ?? 'white'];
 
 	return (
-		<SafeAreaView style={{ flex: 1, backgroundColor: "#afafaf" }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: "#E6F0FF" }}>
 			<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-				<Text style={{ fontSize: 36, color: "#333" }}> 화면</Text>
+				<ActiveScreen />
 			</View>
 			<CurvedTabBar activeKey={activeKey} onTabPress={setActiveKey} />
 		</SafeAreaView>

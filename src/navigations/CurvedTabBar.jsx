@@ -4,11 +4,6 @@ import { Dimensions, StyleSheet, TouchableOpacity, View, Animated, Easing } from
 import Svg, { Path } from 'react-native-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// type Props = {
-// 	activeKey: string;
-// 	onTabPress: (key: string) => void;
-// }
-
 const { width } = Dimensions.get("window");
 const tabHeight = 62;
 const floatingBtnSize = 45;

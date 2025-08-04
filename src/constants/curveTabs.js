@@ -1,7 +1,7 @@
 const TABS = [
-	{ key: "camera", icon: "camera-outline" },
-	{ key: "medkit", icon: "medkit-outline" },
-	{ key: "restaurant", icon: "restaurant-outline" },
+	{ key: "main", icon: "camera-outline" },
+	{ key: "blood", icon: "medkit-outline" },
+	{ key: "menu", icon: "restaurant-outline" },
 	{ key: "chart", icon: "bar-chart-outline" },
 ];
 
