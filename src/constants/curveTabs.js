@@ -1,8 +1,8 @@
 const TABS = [
-	{ key: "main", icon: "camera-outline" },
-	{ key: "blood", icon: "medkit-outline" },
-	{ key: "menu", icon: "restaurant-outline" },
-	{ key: "chart", icon: "bar-chart-outline" },
+	{ key: "main", icon: "camera" },
+	{ key: "blood", icon: "medkit" },
+	{ key: "menu", icon: "restaurant" },
+	{ key: "chart", icon: "stats-chart" },
 ];
 
 export default TABS;

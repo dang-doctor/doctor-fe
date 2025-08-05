@@ -22,6 +22,12 @@ const styles = StyleSheet.create({
 	},
 	mainText: {
 		// textAlign: "",
+		fontFamily: "Cafe24Ssukssuk-v2.0",
+		fontSize: 35,
+		color: "#126EB1",
+		width: "100%",
+		paddingLeft: "40",
+		paddingTop: "50",
 	},
 });
 

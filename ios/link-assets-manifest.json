@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Cafe24Ssukssuk-v2.0.otf",
+      "sha1": "e0a1e815729252d94c66aa3b8d379d8d66a5f369"
+    },
+    {
+      "path": "src/assets/fonts/ONE Mobile POP OTF.otf",
+      "sha1": "47545a29a8912fa557528b07058ed798aef8e80e"
+    },
+    {
+      "path": "src/assets/images/character.png",
+      "sha1": "5fa63d86772cc4f000bdf12f9e5038e4ba4783af"
+    }
+  ]
+}
