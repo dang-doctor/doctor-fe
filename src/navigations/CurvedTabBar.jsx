@@ -5,7 +5,7 @@ import Svg, { Path } from 'react-native-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const { width } = Dimensions.get("window");
-const tabHeight = 62;
+const tabHeight = 68;
 const floatingBtnSize = 45;
 const curveWidth = floatingBtnSize * 2.0;
 const curveHeight = floatingBtnSize * 0.8;
@@ -105,7 +105,7 @@ const CurvedTabBar = ({ activeKey, onTabPress }) => {
                                     onPress={() => onTabPress(tab.key)}
                                     activeOpacity={0.85}
                                 >
-                                    <Ionicons name={tab.icon} size={32} color="#7C88FF" />
+                                    <Ionicons name={tab.icon} size={30} color="#929EFF" />
                                 </TouchableOpacity>
                             </Animated.View>
                         );
@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
         left: sidePadding,
         bottom: 0,
         height: tabHeight + 32,
+        marginBottom: 10,
         flexDirection: "row",
         zIndex: 2,
         pointerEvents: "box-none",

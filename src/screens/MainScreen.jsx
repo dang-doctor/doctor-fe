@@ -1,12 +1,28 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MainScreen = () => {
+
+	const insets = useSafeAreaInsets();
+
 	return (
-		<View>
-			<Text>메인 화면</Text>
+		<View style={[styles.screenContainer, {paddingTop: insets.top,}]}>
+			<Text style={styles.mainText}>오늘의 식단을{'\n'}등록해주세요</Text>
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	screenContainer: {
+		// alignItems: "flex-start",
+		justifyContent: "flex-start",
+		width: "100%",
+		height: "100%",
+	},
+	mainText: {
+		// textAlign: "",
+	},
+});
 
 export default MainScreen;
