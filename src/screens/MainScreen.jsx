@@ -1,38 +1,43 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import CameraScreen from './main/CameraScreen';
+import { useNavigation } from '@react-navigation/native';
 
 const MainScreen = () => {
 
 	const insets = useSafeAreaInsets();
 
+	const navigation = useNavigation();
+
 	return (
 		<View style={[styles.screenContainer, {paddingTop: insets.top,}]}>
 			<Text style={styles.mainText}>오늘의 식단을{'\n'}등록해주세요</Text>
-			<View style= {styles.cloudImgWrapper}>
-				<Image 
-					source={require('../assets/images/cloud.png')}
-					style={styles.cloudImg}
-				/>
-			</View>
-			<View style={styles.charImgWrapper}>
-				<Image
-					source={require('../assets/images/character.png')}
-					style={styles.characterImg}
-				/>
+			<View>
+				<TouchableOpacity
+					style={styles.cloudImgWrapper}
+					onPress={ ()=>{navigation.navigate('CameraScreen')} }
+				>
+					<Image
+						source={require('../assets/images/cloud.png')}
+						style={styles.cloudImg}
+					/>
+				</TouchableOpacity>
+				<View style={styles.charImgWrapper}>
+					<Image
+						source={require('../assets/images/character.png')}
+						style={styles.characterImg}
+					/>
+				</View>
 			</View>
 		</View>
 	);
 };
 
-// TODO : Wrapper 2개를 묶고, screen을 space-between으로 설정,
-// 그러면 글자는 맨 위, 이미지 두개는 아래로 정렬,
-// 그 상태에서 이미지 크기 다시 조절해보기.
-
 const styles = StyleSheet.create({
 	screenContainer: {
 		// flex: 3,
-		justifyContent: "flex-start",
+		justifyContent: "space-between",
 		width: "100%",
 		height: "100%",
 	},
@@ -43,7 +48,10 @@ const styles = StyleSheet.create({
 		color: "#126EB1",
 		width: "100%",
 		paddingLeft: "40",
-		paddingTop: "50",
+		paddingTop: "65",
+	},
+	viewContainer: {
+		flex: 2,
 	},
 	cloudImgWrapper: {
 		padding: 0,
@@ -61,7 +69,7 @@ const styles = StyleSheet.create({
 	},
 	charImgWrapper: {
 		width: "100%",
-		height: "40%",
+		height: "45%",
 		alignItems: "center",
 		justifyContent: 'flex-start',
 	},
