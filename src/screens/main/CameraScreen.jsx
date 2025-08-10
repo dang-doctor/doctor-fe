@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     width: BTN_SIZE - 16,
     height: BTN_SIZE - 16,
     borderRadius: (BTN_SIZE - 16) / 2,
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#fff',
   },
 });
 
