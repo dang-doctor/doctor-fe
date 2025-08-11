@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import CameraScreen from './main/CameraScreen';
+import CameraScreen from './CameraScreen.jsx';
 import { useNavigation } from '@react-navigation/native';
 
 const MainScreen = () => {
@@ -19,13 +19,13 @@ const MainScreen = () => {
 					onPress={ ()=>{navigation.navigate('CameraScreen')} }
 				>
 					<Image
-						source={require('../assets/images/cloud.png')}
+						source={require('../../assets/images/cloud.png')}
 						style={styles.cloudImg}
 					/>
 				</TouchableOpacity>
 				<View style={styles.charImgWrapper}>
 					<Image
-						source={require('../assets/images/character.png')}
+						source={require('../../assets/images/character.png')}
 						style={styles.characterImg}
 					/>
 				</View>
