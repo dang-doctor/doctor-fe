@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
 import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera';
 import { useIsFocused } from '@react-navigation/native';
+import CornerFrameOverlay from '../../components/CornerFrameOverlay';
 
 const CameraScreen = ({ navigation }) => {
 	// 권한
@@ -19,7 +20,6 @@ const CameraScreen = ({ navigation }) => {
 		physicalDevices: ['ultra-wide-angle-camera', 'wide-angle-camera']
 	});
 
-	// 디지털 확대 0(중립줌)
 	const neutralZoom = useMemo(() => {
 		if (!device) return 1;
 		if (typeof device.neutralZoom === 'number') return device.neutralZoom;
@@ -69,19 +69,21 @@ const CameraScreen = ({ navigation }) => {
 				device={device}
 				isActive={canRun}
 				photo={true}
-				// 화면 꽉 채움(일부 센서 크롭은 불가피) + 디지털 줌 0으로 "과확대" 방지
 				resizeMode="cover"
 				zoom={zoom}
 				enableZoomGesture={false}
 				videoStabilizationMode="off"
 			/>
 
-			{/* 우측 상단 X */}
+			{/* 중앙 선 SVG */}
+			<CornerFrameOverlay />
+
+			{/* X 버튼 */}
 			<TouchableOpacity style={styles.closeBtn} onPress={() => navigation.goBack()}>
 				<Text style={styles.closeTxt}>✕</Text>
 			</TouchableOpacity>
 
-			{/* 하단 중앙 셔터 */}
+			{/* 셔터 버튼 */}
 			<View style={styles.bottomBar}>
 				<TouchableOpacity style={styles.shutter} onPress={onTakePhoto} />
 			</View>
@@ -113,11 +115,11 @@ const styles = StyleSheet.create({
 		borderRadius: 22,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: 'rgba(0,0,0,0.35)'
+		backgroundColor: 'rgba(0,0,0,0.25)'
 	},
 	closeTxt: {
 		color: 'white',
-		fontSize: 18,
+		fontSize: 20,
 		fontWeight: '600'
 	},
 	bottomBar: {
