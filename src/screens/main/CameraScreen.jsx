@@ -1,154 +1,141 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Dimensions, PermissionsAndroid, Platform, Pressable, StyleSheet, View, Text } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Camera, useCameraDevice } from 'react-native-vision-camera';
+import { View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
+import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera';
+import { useIsFocused } from '@react-navigation/native';
 
-const CameraScreen = ({ navigation, onClose, onShot }) => {
-  const insets = useSafeAreaInsets();
-  const device = useCameraDevice('back');
-  const cameraRef = useRef(null);
+const CameraScreen = ({ navigation }) => {
+	// 권한
+	const { hasPermission, requestPermission } = useCameraPermission();
+	useEffect(() => {
+		(async () => {
+			if (!hasPermission) {
+				await requestPermission();
+			}
+		})();
+	}, [hasPermission, requestPermission]);
 
-  const [granted, setGranted] = useState(false);
-  const [scale, setScale] = useState(1);
+	// 기기: 초광각 우선, 없으면 광각
+	const device = useCameraDevice('back', {
+		physicalDevices: ['ultra-wide-angle-camera', 'wide-angle-camera']
+	});
 
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS === 'android') {
-        const res = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.CAMERA,
-        );
-        setGranted(res === PermissionsAndroid.RESULTS.GRANTED);
-      } else {
-        const status = await Camera.requestCameraPermission();
-        setGranted(status === 'granted');
-      }
-    })();
-  }, []);
+	// 디지털 확대 0(중립줌)
+	const neutralZoom = useMemo(() => {
+		if (!device) return 1;
+		if (typeof device.neutralZoom === 'number') return device.neutralZoom;
+		if (typeof device.minZoom === 'number') return device.minZoom;
+		return 1;
+	}, [device]);
 
-  useEffect(() => {
-    if (device?.formats?.length) {
-      const { height: screenH, width: screenW } = Dimensions.get('window');
-      const screenRatio = screenH / screenW;
-  
-      const format = device.formats.reduce((prev, curr) =>
-        curr.videoHeight * curr.videoWidth > prev.videoHeight * prev.videoWidth ? curr : prev
-      );
-      const camRatio = format.videoHeight / format.videoWidth;
-  
-      const baseScale =
-        camRatio > screenRatio
-          ? camRatio / screenRatio
-          : screenRatio / camRatio;
-  
-      setScale(baseScale);
-    }
-  }, [device]);
+	const [zoom] = useState(neutralZoom);
+	const cameraRef = useRef(null);
+	const isFocused = useIsFocused();
+	const canRun = isFocused && !!device && hasPermission;
 
-  const handleClose = useMemo(
-    () => () => {
-      if (onClose) onClose();
-      else if (navigation && navigation.goBack) navigation.goBack();
-    },
-    [navigation, onClose]
-  );
+	const onTakePhoto = async () => {
+		try {
+			const photo = await cameraRef.current?.takePhoto({
+				qualityPrioritization: 'balanced',
+				flash: 'off',
+				enableShutterSound: Platform.OS === 'android'
+			});
+			// TODO: photo.path 사용
+			// console.log(photo);
+		} catch (e) {
+			console.warn(e);
+		}
+	};
 
-  const handleShutter = async () => {
-    try {
-      if (!cameraRef.current) return;
-      const photo = await cameraRef.current.takePhoto({
-        // 필요 시 옵션: flash: 'off' | 'on' | 'auto'
-        // qualityPrioritization: 'quality' | 'balanced' | 'speed'
-      });
-      console.log('PHOTO:', photo); // { path, width, height, ... }
-      if (onShot) onShot(photo);
-    } catch (e) {
-      console.warn('takePhoto error', e);
-    }
-  };
+	if (!device) {
+		return (
+			<View style={styles.center}>
+				<Text style={styles.txt}>카메라 준비 중…</Text>
+			</View>
+		);
+	}
+	if (!hasPermission) {
+		return (
+			<View style={styles.center}>
+				<Text style={styles.txt}>카메라 권한이 필요합니다</Text>
+			</View>
+		);
+	}
 
-  if (!granted || !device) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
+	return (
+		<View style={styles.container}>
+			<Camera
+				ref={cameraRef}
+				style={StyleSheet.absoluteFill}
+				device={device}
+				isActive={canRun}
+				photo={true}
+				// 화면 꽉 채움(일부 센서 크롭은 불가피) + 디지털 줌 0으로 "과확대" 방지
+				resizeMode="cover"
+				zoom={zoom}
+				enableZoomGesture={false}
+				videoStabilizationMode="off"
+			/>
 
-  return (
-    <View style={styles.container}>
-      <Camera
-        ref={cameraRef}
-        style={[StyleSheet.absoluteFill, { transform: [{ scale }] }]}
-        device={device}
-        isActive={true}
-        photo={true}
-        video={false}
-      />
+			{/* 우측 상단 X */}
+			<TouchableOpacity style={styles.closeBtn} onPress={() => navigation.goBack()}>
+				<Text style={styles.closeTxt}>✕</Text>
+			</TouchableOpacity>
 
-      {/* 상단 우측 X 버튼 */}
-      <Pressable
-        onPress={handleClose}
-        style={[
-          styles.closeBtn,
-          { top: Math.max(insets.top, 8) + 8, right: 12 },
-        ]}
-        android_ripple={{ borderless: true }}
-      >
-        <Text style={styles.closeTxt}>✕</Text>
-      </Pressable>
-
-      {/* 하단 중앙 셔터 버튼 */}
-      <View style={[styles.shutterWrap, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
-        <Pressable onPress={handleShutter} style={styles.shutterOuter} android_ripple={{ borderless: true }}>
-          <View style={styles.shutterInner} />
-        </Pressable>
-      </View>
-    </View>
-  );
+			{/* 하단 중앙 셔터 */}
+			<View style={styles.bottomBar}>
+				<TouchableOpacity style={styles.shutter} onPress={onTakePhoto} />
+			</View>
+		</View>
+	);
 };
 
-const BTN_SIZE = 72;
-
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000' },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-
-  // Close (X)
-  closeBtn: {
-    position: 'absolute',
-    right: 12,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.35)',
-  },
-  closeTxt: { color: '#fff', fontSize: 20, fontWeight: '600' },
-
-  // Shutter
-  shutterWrap: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  shutterOuter: {
-    width: BTN_SIZE,
-    height: BTN_SIZE,
-    borderRadius: BTN_SIZE / 2,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  shutterInner: {
-    width: BTN_SIZE - 16,
-    height: BTN_SIZE - 16,
-    borderRadius: (BTN_SIZE - 16) / 2,
-    backgroundColor: '#fff',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: 'black'
+	},
+	center: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'black'
+	},
+	txt: {
+		color: 'white',
+		fontSize: 16
+	},
+	closeBtn: {
+		position: 'absolute',
+		top: 20,
+		right: 16,
+		width: 44,
+		height: 44,
+		borderRadius: 22,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'rgba(0,0,0,0.35)'
+	},
+	closeTxt: {
+		color: 'white',
+		fontSize: 18,
+		fontWeight: '600'
+	},
+	bottomBar: {
+		position: 'absolute',
+		bottom: 28,
+		left: 0,
+		right: 0,
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	shutter: {
+		width: 70,
+		height: 70,
+		borderRadius: 35,
+		borderWidth: 6,
+		borderColor: 'white',
+		backgroundColor: 'rgba(255,255,255,0.15)'
+	}
 });
 
 export default CameraScreen;

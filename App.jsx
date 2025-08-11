@@ -49,7 +49,7 @@ function App() {
                     </Stack.Screen>
                     {/* 하위 페이지 등록 */}
                     <Stack.Screen name="CameraScreen" component={CameraScreen} />
-                    {/* 필요하다면 더 추가 */}
+
                 </Stack.Navigator>
             </NavigationContainer>
 		</SafeAreaProvider>
