@@ -10,21 +10,39 @@ const floatingBtnSize = 45;
 const curveWidth = floatingBtnSize * 2.0;
 const curveHeight = floatingBtnSize * 0.8;
 const sidePadding = 24;
+const cornerRadius = 20;
 
-const getCurvePath = (centerX) => {
-    const left = centerX - curveWidth / 2;
-    const right = centerX + curveWidth / 2;
-    return `
-        M0 0
-        H${left}
-        C${left + curveWidth * 0.15} 0, ${centerX - curveWidth * 0.27} ${curveHeight}, ${centerX} ${curveHeight}
-        C${centerX + curveWidth * 0.27} ${curveHeight}, ${right - curveWidth * 0.15} 0, ${right} 0
-        H${width}
-        V${tabHeight}
-        H0
-        Z
-    `;
-}
+const getCurvePath = (centerX, options = {}) => {
+	const {
+		curveWidth,
+		curveHeight,
+		width,
+		tabHeight,
+		cornerRadius,
+	} = options;
+
+	// 안전한 반지름(너무 크지 않게 클램프)
+	const r = Math.max(0, Math.min(cornerRadius, width / 4, tabHeight));
+
+	const left = centerX - curveWidth / 2;
+	const right = centerX + curveWidth / 2;
+
+	// 상단 좌우 모서리만 둥글게: 시작을 (r,0)에서 하고,
+	// 우측 상단은 Q로 (width,0) → (width,r), 좌측 상단은 V r → Q(0,0) → (r,0)
+	return `
+		M${r} 0
+		H${left}
+		C${left + curveWidth * 0.15} 0, ${centerX - curveWidth * 0.27} ${curveHeight}, ${centerX} ${curveHeight}
+		C${centerX + curveWidth * 0.27} ${curveHeight}, ${right - curveWidth * 0.15} 0, ${right} 0
+		H${width - r}
+		Q${width} 0, ${width} ${r}
+		V${tabHeight}
+		H0
+		V${r}
+		Q0 0, ${r} 0
+		Z
+	`;
+};
 
 const CurvedTabBar = ({ activeKey, onTabPress }) => {
     const activeIdx = TABS.findIndex(tab => tab.key === activeKey);
@@ -35,7 +53,13 @@ const CurvedTabBar = ({ activeKey, onTabPress }) => {
     const initialCurveCenterX = sidePadding + tabWidth * activeIdx + tabWidth / 2;
     const curveCenterX = useRef(new Animated.Value(initialCurveCenterX)).current;
 
-    const [curvePath, setCurvePath] = useState(getCurvePath(initialCurveCenterX));
+    const [curvePath, setCurvePath] = useState(getCurvePath(initialCurveCenterX, {
+        curveWidth,
+        curveHeight,
+        width,
+        tabHeight,
+        cornerRadius,
+    }));
 
     // btn animation
     const FLOAT_HEIGHT = 30;
@@ -68,9 +92,21 @@ const CurvedTabBar = ({ activeKey, onTabPress }) => {
 
     useEffect(() => {
         const id = curveCenterX.addListener(({ value }) => {
-            setCurvePath(getCurvePath(value));
+            setCurvePath(getCurvePath(value, {
+                curveWidth,
+                curveHeight,
+                width,
+                tabHeight,
+                cornerRadius,
+            }));
         });
-        setCurvePath(getCurvePath((curveCenterX)._value || initialCurveCenterX));
+        setCurvePath(getCurvePath((curveCenterX)._value || initialCurveCenterX, {
+            curveWidth,
+            curveHeight,
+            width,
+            tabHeight,
+            cornerRadius,
+        }));
         return () => curveCenterX.removeListener(id);
     }, []);
 
