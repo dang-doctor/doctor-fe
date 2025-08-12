@@ -27,8 +27,9 @@ const Stack = createStackNavigator();
 
 const TabScreens = ({ activeKey, setActiveKey, route }) => {
 	const ActiveScreen = TAB_SCREENS[activeKey];
-	// ✅ 로그인 직후 전달받은 코드(있을 수도, 없을 수도)
+	// 로그인 직후 전달받은 코드(있을 수도, 없을 수도)z
 	const kakaoCode = route?.params?.kakaoCode ?? null;
+	console.log(kakaoCode);
 
 	// 필요하다면 여기서 kakaoCode로 백엔드에 신호 보내거나
 	// 한 번 사용 후 무시하는 로직을 넣을 수 있음.
@@ -63,7 +64,7 @@ const App = () => {
 		checkSession();
 	}, []);
 
-	// ✅ LoginScreen에서 성공 신호 수신 (토큰 또는 코드)
+	// LoginScreen에서 성공 신호 수신 (토큰 또는 코드)
 	const handleLoginSuccess = useCallback(async (payload) => {
 		try {
 			let token = null;
@@ -116,7 +117,7 @@ const App = () => {
 
 					<Stack.Screen
 						name="Tabs"
-						// ✅ 로그인 직후 1회성으로 코드 전달 (없으면 null)
+						// 로그인 직후 1회성으로 코드 전달 (없으면 null)
 						initialParams={{ kakaoCode: pendingAuth?.code ?? null }}
 					>
 						{(props) => (
