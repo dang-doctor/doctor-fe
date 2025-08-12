@@ -15,6 +15,7 @@ import MenuRecordScreen from './src/screens/menu/MenuRecordScreen';
 import CameraScreen from './src/screens/main/CameraScreen';
 
 import LoginScreen from './src/screens/LoginScreen';
+import { SessionProvider } from './src/session/SessionProvider';
 
 const TAB_SCREENS = {
 	main: MainScreen,
@@ -29,7 +30,7 @@ const TabScreens = ({ activeKey, setActiveKey, route }) => {
 	const ActiveScreen = TAB_SCREENS[activeKey];
 	// 로그인 직후 전달받은 코드(있을 수도, 없을 수도)z
 	const kakaoCode = route?.params?.kakaoCode ?? null;
-	console.log(kakaoCode);
+	// console.log(kakaoCode);
 
 	// 필요하다면 여기서 kakaoCode로 백엔드에 신호 보내거나
 	// 한 번 사용 후 무시하는 로직을 넣을 수 있음.
@@ -98,41 +99,41 @@ const App = () => {
 	if (isLoading) return null; // 필요 시 Splash로 교체
 
 	return (
-		<SafeAreaProvider>
-			<NavigationContainer>
-				{/* isLoggedIn 변경 시 초기 라우트 반영 위해 재마운트 */}
-				<Stack.Navigator
-					key={isLoggedIn ? 'loggedIn' : 'guest'}
-					initialRouteName={isLoggedIn ? 'Tabs' : 'Login'}
-					screenOptions={{ headerShown: false }}
-				>
-					<Stack.Screen name="Login">
-						{(props) => (
-							<LoginScreen
-								{...props}
-								onLoginSuccess={handleLoginSuccess}
-							/>
-						)}
-					</Stack.Screen>
-
-					<Stack.Screen
-						name="Tabs"
-						// 로그인 직후 1회성으로 코드 전달 (없으면 null)
-						initialParams={{ kakaoCode: pendingAuth?.code ?? null }}
+		<SessionProvider>
+			<SafeAreaProvider>
+				<NavigationContainer>
+					{/* isLoggedIn 변경 시 초기 라우트 반영 위해 재마운트 */}
+					<Stack.Navigator
+						key={isLoggedIn ? 'loggedIn' : 'guest'}
+						initialRouteName={isLoggedIn ? 'Tabs' : 'Login'}
+						screenOptions={{ headerShown: false }}
 					>
-						{(props) => (
-							<TabScreens
-								{...props} // route, navigation 전달
-								activeKey={activeKey}
-								setActiveKey={setActiveKey}
-							/>
-						)}
-					</Stack.Screen>
-
-					<Stack.Screen name="CameraScreen" component={CameraScreen} />
-				</Stack.Navigator>
-			</NavigationContainer>
-		</SafeAreaProvider>
+						<Stack.Screen name="Login">
+							{(props) => (
+								<LoginScreen
+									{...props}
+									onLoginSuccess={handleLoginSuccess}
+								/>
+							)}
+						</Stack.Screen>
+						<Stack.Screen
+							name="Tabs"
+							// 로그인 직후 1회성으로 코드 전달 (없으면 null)
+							initialParams={{ kakaoCode: pendingAuth?.code ?? null }}
+						>
+							{(props) => (
+								<TabScreens
+									{...props} // route, navigation 전달
+									activeKey={activeKey}
+									setActiveKey={setActiveKey}
+								/>
+							)}
+						</Stack.Screen>
+						<Stack.Screen name="CameraScreen" component={CameraScreen} />
+					</Stack.Navigator>
+				</NavigationContainer>
+			</SafeAreaProvider>
+		</SessionProvider>
 	);
 };
 
