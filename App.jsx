@@ -1,7 +1,7 @@
 // App.jsx
 import React, { useEffect, useState, useCallback } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -100,7 +100,13 @@ const App = () => {
 	if (isLoading) return null; // 필요 시 Splash로 교체
 
 	return (
-		<RenderTest /> // 백엔드 연결 시 아래의 코드 사용
+		
+		<SafeAreaProvider>
+			<SafeAreaView style={{flex: 1}}>
+				<StatusBar backgroundColor="#fff" barStyle="dark-content" />
+				<RenderTest />
+			</SafeAreaView>
+		</SafeAreaProvider>
 		// <SessionProvider>
 		// 	<SafeAreaProvider>
 		// 		<NavigationContainer>
