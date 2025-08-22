@@ -5,8 +5,6 @@ import DateHeader from '../../components/DateHeader';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import BloodSugarRegister from '../../components/BloodSugarRegister';
 
-import WakeUp from '../../assets/svgs/wakeup.svg';
-
 const MAIN_FONT = 'ONE Mobile POP OTF';
 
 const BloodRecordScreen = () => {
