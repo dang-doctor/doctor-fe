@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DateHeader from '../../components/DateHeader';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import BloodSugarRegister from '../../components/BloodSugarRegister';
+import { useNavigation } from '@react-navigation/native';
 
 const MAIN_FONT = 'ONE Mobile POP OTF';
 
@@ -12,6 +13,8 @@ const BloodRecordScreen = () => {
 
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [sugarRatio, setSugarRatio] = useState(0);
+
+	const navigation = useNavigation();
 	
 	return (
 		<View style={[styles.screenContainer, {paddingTop: insets.top,}]}>
@@ -37,18 +40,30 @@ const BloodRecordScreen = () => {
 				<Grid style={styles.grid}>
 					<Row>
 						<Col style={styles.col}>
-							<BloodSugarRegister icon='wakeup' />
+							<BloodSugarRegister
+								icon='wakeup'
+								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'wakeup'})}
+							/>
 						</Col>
 						<Col style={styles.col}>
-							<BloodSugarRegister icon='morning' />
+							<BloodSugarRegister
+								icon='morning'
+								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'morning'})}
+							/>
 						</Col>
 					</Row>
 					<Row>
 						<Col style={styles.col}>
-							<BloodSugarRegister icon='noon' />
+							<BloodSugarRegister
+								icon='noon'
+								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'noon'})}
+							/>
 						</Col>
 						<Col style={styles.col}>
-							<BloodSugarRegister icon='evening' />
+							<BloodSugarRegister
+								icon='evening'
+								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'evening'})}
+							/>
 						</Col>
 					</Row>
 				</Grid>

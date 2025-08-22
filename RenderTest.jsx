@@ -7,6 +7,8 @@ import { StyleSheet, View } from 'react-native';
 import CurvedTabBar from './src/navigations/CurvedTabBar';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { createStackNavigator } from '@react-navigation/stack';
+import BloodSugarAddScreen from './src/screens/blood/BloodSugarAddScreen';
 
 const TAB_SCREENS = {
 	main : MainScreen,
@@ -27,6 +29,8 @@ const TabScreens = ({ activeKey, setActiveKey }) => {
 	);
 };
 
+const Stack = createStackNavigator();
+
 const RenderTest = () => {
 	const [activeKey, setActiveKey] = useState('blood');
 
@@ -37,7 +41,20 @@ const RenderTest = () => {
 	return (
 		<SafeAreaProvider>
 			<NavigationContainer>
-				<TabScreens activeKey={activeKey} setActiveKey={setActiveKey} />
+				<Stack.Navigator screenOptions={{ headerShown: false }}>
+					<Stack.Screen
+						name="Tabs"
+					>
+						{(props) => (
+							<TabScreens
+								{...props} // route, navigation 전달
+								activeKey={activeKey}
+								setActiveKey={setActiveKey}
+							/>
+						)}
+					</Stack.Screen>
+					<Stack.Screen name="BloodSugarAddScreen" component={BloodSugarAddScreen} />
+				</Stack.Navigator>
 			</NavigationContainer>	
 		</SafeAreaProvider>
 	);

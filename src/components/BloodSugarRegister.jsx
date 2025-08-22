@@ -18,7 +18,7 @@ const texts ={
 	evening: '저녁',
 }
 
-const BloodSugarRegister = ({ icon, sugarAmount=0 }) => {
+const BloodSugarRegister = ({ icon, sugarAmount=0, onPress }) => {
 
 
 
@@ -32,7 +32,7 @@ const BloodSugarRegister = ({ icon, sugarAmount=0 }) => {
 					/>
 					<Text style={styles.iconText}>{texts[icon]}</Text>
 				</View>
-				<PlusButton size={40} strokeWidth={4} onPress={()=>{}}/>
+				<PlusButton size={40} strokeWidth={4} onPress={onPress}/>
 			</View>
 			<Text style={styles.sugarAmount}>
 				<Text style={styles.sugarValue}>{sugarAmount} </Text>
