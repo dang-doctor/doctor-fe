@@ -48,7 +48,7 @@ const BloodRecordScreen = () => {
 						<Col style={styles.col}>
 							<BloodSugarRegister
 								icon='morning'
-								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'morning'})}
+								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'morning', selectedDate: selectedDate})}
 							/>
 						</Col>
 					</Row>
@@ -56,13 +56,13 @@ const BloodRecordScreen = () => {
 						<Col style={styles.col}>
 							<BloodSugarRegister
 								icon='noon'
-								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'noon'})}
+								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'noon', selectedDate: selectedDate})}
 							/>
 						</Col>
 						<Col style={styles.col}>
 							<BloodSugarRegister
 								icon='evening'
-								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'evening'})}
+								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'evening', selectedDate: selectedDate})}
 							/>
 						</Col>
 					</Row>

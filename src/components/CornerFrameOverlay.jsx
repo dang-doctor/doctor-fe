@@ -1,4 +1,4 @@
-
+// from CameraScreen.jsx
 import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';

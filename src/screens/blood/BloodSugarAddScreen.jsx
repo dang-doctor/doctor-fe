@@ -1,23 +1,53 @@
-import React, { useState } from 'react';
+// screens/blood/BloodSugarAddScreen.jsx
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import TimeSelectorRow from '../../components/TimeSelectorRow'; // 기존/새 컴포넌트 경로에 맞춰 수정
+import TimeSelectorRow from '../../components/TimeSelectorRow';
 import CalendarDateButton from '../../components/CalendarDateButton';
+import BloodEntryCard from '../../components/BloodEntryCard';
 
 const MAIN_FONT = 'ONE Mobile POP OTF';
 
 const BloodSugarAddScreen = ({ route, navigation }) => {
-	// params.time을 1회 초기값으로만 사용 (이후엔 이 화면에서 독립 관리)
+	// params: { time: 'wakeup' | 'morning' | 'noon' | 'evening', selectedDate?: Date|string|number }
 	const initialTime = route?.params?.time ?? 'wakeup';
-	const initialDate = route?.params?.selectedDate ?? new Date();
-	
+	const initialDate = route?.params?.selectedDate ? new Date(route.params.selectedDate) : new Date();
+
 	const [time, setTime] = useState(() => initialTime);
 	const [selectedDate, setSelectedDate] = useState(() => initialDate);
+
+	// 카드별 상태
+	const [entries, setEntries] = useState({
+		before: { glucose: null, time: new Date() },
+		after1: { glucose: null, time: new Date() },
+		after2: { glucose: null, time: new Date() },
+	});
+
+	// 'wakeup' 전환 시 식후 값 초기화(원치 않으면 제거 가능)
+	useEffect(() => {
+		if (time === 'wakeup') {
+			setEntries((prev) => ({
+				...prev,
+				after1: { glucose: null, time: new Date() },
+				after2: { glucose: null, time: new Date() },
+			}));
+		}
+	}, [time]);
+
+	const update = (key) => (payload) => {
+		setEntries((prev) => ({
+			...prev,
+			[key]: {
+				glucose: payload.glucose,
+				time: payload.time,
+			},
+		}));
+		// TODO: 서버 저장/검증 등 추가 로직
+	};
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.headerText}>혈당 추가</Text>
 
-			{/* 가로 스크롤 선택 바: 클릭 시 중앙 정렬 + onPick으로 현재 화면의 state 업데이트 */}
 			<View style={{ width: '100%'}}>
 				<TimeSelectorRow
 					initialKey={initialTime}
@@ -33,6 +63,32 @@ const BloodSugarAddScreen = ({ route, navigation }) => {
 						setSelectedDate(picked);
 					}}
 				/>
+
+				{/* 공통: 식전 */}
+				<BloodEntryCard
+					label="식전"
+					initialGlucose={entries.before.glucose}
+					initialTime={entries.before.time}
+					onChange={update('before')}
+				/>
+
+				{/* wakeup 이외에만 식후 1/2 표시 */}
+				{time !== 'wakeup' && (
+					<>
+						<BloodEntryCard
+							label="식후 1"
+							initialGlucose={entries.after1.glucose}
+							initialTime={entries.after1.time}
+							onChange={update('after1')}
+						/>
+						<BloodEntryCard
+							label="식후 2"
+							initialGlucose={entries.after2.glucose}
+							initialTime={entries.after2.time}
+							onChange={update('after2')}
+						/>
+					</>
+				)}
 			</ScrollView>
 		</View>
 	);
