@@ -151,10 +151,6 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 		padding: 16,
 		marginVertical: 10,
-		shadowColor: '#000',
-		shadowOpacity: 0.06,
-		shadowRadius: 10,
-		elevation: 2,
 	},
 	row: {
 		flexDirection: 'row',
@@ -193,6 +189,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'flex-end',
 		color: '#555',
 		fontFamily: MAIN_FONT,
+		fontSize: 12,
 	},
 	backdrop: {
 		flex: 1,

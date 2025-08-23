@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import TimeSelectorRow from '../../components/TimeSelectorRow';
 import CalendarDateButton from '../../components/CalendarDateButton';
 import BloodEntryCard from '../../components/BloodEntryCard';
+import MemoBox from '../../components/MemoBox';
 
 const MAIN_FONT = 'ONE Mobile POP OTF';
 
@@ -14,6 +15,7 @@ const BloodSugarAddScreen = ({ route, navigation }) => {
 
 	const [time, setTime] = useState(() => initialTime);
 	const [selectedDate, setSelectedDate] = useState(() => initialDate);
+	const [memo, setMemo] = useState('');
 
 	// 카드별 상태
 	const [entries, setEntries] = useState({
@@ -55,7 +57,13 @@ const BloodSugarAddScreen = ({ route, navigation }) => {
 				/>
 			</View>
 
-			<ScrollView style={styles.contentWrapper}>
+			<ScrollView
+				style={styles.contentWrapper}
+				contentContainerStyle={[
+					styles.scrollContent,                 
+					{ paddingBottom: 40 },
+				]}
+			>
 				<CalendarDateButton
 					initialDate={selectedDate}
 					maximumDate={new Date()}
@@ -89,6 +97,7 @@ const BloodSugarAddScreen = ({ route, navigation }) => {
 						/>
 					</>
 				)}
+				<MemoBox value={memo} onChangeText={setMemo} />
 			</ScrollView>
 		</View>
 	);

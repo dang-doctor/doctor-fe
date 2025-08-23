@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		backgroundColor: '#929EFF',
 		justifyContent: 'space-between',
+		marginBottom: 5,
 	},
 	dateText: {
 		marginLeft: 8,
