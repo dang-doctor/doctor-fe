@@ -42,7 +42,7 @@ const BloodRecordScreen = () => {
 						<Col style={styles.col}>
 							<BloodSugarRegister
 								icon='wakeup'
-								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'wakeup'})}
+								onPress={() => navigation.navigate('BloodSugarAddScreen', {time: 'wakeup', selectedDate: selectedDate})}
 							/>
 						</Col>
 						<Col style={styles.col}>

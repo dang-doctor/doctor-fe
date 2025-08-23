@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native
 const MAIN_FONT = 'ONE Mobile POP OTF';
 
 const ITEM_WIDTH = 96;
-const SPACING = 20; // ← 버튼 사이 간격 (Separator로만 적용)
+const SPACING = 20; // ← 버튼 사이 간격
 const CELL = ITEM_WIDTH + SPACING;
 
 const TIMES = [
@@ -82,7 +82,7 @@ const TimeSelectorRow = ({ initialKey = 'wakeup', onPick }) => {
 				getItemLayout={getItemLayout}
 				initialScrollIndex={initialIndex}
 				decelerationRate="fast"
-				// 간격: Separator로만 관리 (item 마진 제거!)
+				// 간격: Separator로만 관리 (item 마진 제거)
 				ItemSeparatorComponent={() => <View style={{ width: 30 }} />}
 				// 실제 뷰포트 폭/콘텐츠 폭 실측
 				onLayout={(e) => setViewportW(e.nativeEvent.layout.width)}
@@ -96,12 +96,12 @@ const TimeSelectorRow = ({ initialKey = 'wakeup', onPick }) => {
 
 const styles = StyleSheet.create({
 	wrap: {
-		paddingVertical: 10,
-		paddingHorizontal: 10, // 래퍼 패딩은 OK (뷰포트 실측하므로 영향 반영됨)
+		paddingVertical: 20,
+		paddingHorizontal: 10,
+		backgroundColor: '#fff',
 	},
 	item: {
 		width: ITEM_WIDTH,
-		// marginHorizontal: H_MARGIN,  // ← 제거! (간격은 Separator로만)
 		paddingVertical: 10,
 		borderRadius: 10,
 		backgroundColor: '#DEDEDE',
