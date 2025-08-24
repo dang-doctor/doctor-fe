@@ -24,6 +24,10 @@ const BloodSugarAddScreen = ({ route, navigation }) => {
 		after2: { glucose: null, time: new Date() },
 	});
 
+	const handleSaveMemo = async () => {
+		// TODO : memp값 저장 통신 함수
+	};
+
 	// 'wakeup' 전환 시 식후 값 초기화(원치 않으면 제거 가능)
 	useEffect(() => {
 		if (time === 'wakeup') {
@@ -97,7 +101,7 @@ const BloodSugarAddScreen = ({ route, navigation }) => {
 						/>
 					</>
 				)}
-				<MemoBox value={memo} onChangeText={setMemo} />
+				<MemoBox value={memo} onChangeText={setMemo} onPressSave={handleSaveMemo} />
 			</ScrollView>
 		</View>
 	);

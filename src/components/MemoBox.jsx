@@ -1,10 +1,10 @@
 // components/MemoBox.jsx
 import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 const MAIN_FONT = 'ONE Mobile POP OTF';
 
-const MemoBox = ({ value, onChangeText, height = 120 }) => {
+const MemoBox = ({ value, onChangeText, height = 120, onPressSave }) => {
 	return (
 		<View style={styles.container}>
 			<TextInput
@@ -16,6 +16,14 @@ const MemoBox = ({ value, onChangeText, height = 120 }) => {
 				multiline={true}
 				textAlignVertical="top"
 			/>
+			<View style={styles.buttonWrapper}>
+				<TouchableOpacity
+					style={styles.saveButton}
+					onPress={onPressSave}
+				>
+					<Text style={styles.saveButtonText}>저장</Text>
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 };
@@ -30,10 +38,33 @@ const styles = StyleSheet.create({
 	input: {
 		width: '100%',
 		backgroundColor: '#fff',
-		borderRadius: 12,
+		borderTopLeftRadius: 16,
+		borderTopRightRadius: 16,
 		padding: 12,
 		fontSize: 14,
 		color: '#111',
+		fontFamily: MAIN_FONT,
+	},
+	buttonWrapper: {
+		width: '100%',
+		height: 60,
+		borderBottomRightRadius: 16,
+		borderBottomLeftRadius: 16,
+		backgroundColor: '#fff',
+		justifyContent: 'center',
+		alignItems: 'flex-end',
+		padding: 10,
+	},
+	saveButton: {
+		width: 50,
+		height: 40,
+		backgroundColor: '#929EFF',
+		justifyContent: 'center',
+		borderRadius: 10,
+	},
+	saveButtonText: {
+		textAlign: 'center',
+		color: '#fff',
 		fontFamily: MAIN_FONT,
 	},
 });
