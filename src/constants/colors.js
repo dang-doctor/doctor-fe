@@ -10,4 +10,8 @@ Colors.dark = {
 	text: '#fff',
 }
 
+Colors.key = {
+	background: '#E6F0FF',
+}
+
 export default Colors;

@@ -1,53 +1,124 @@
 // App.jsx
 import React, { useEffect, useState, useCallback } from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; // npm install 필요(v6)
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import CurvedTabBar from './src/navigations/CurvedTabBar';
+// 커스텀 탭바 어댑터 (분리 파일)
+import CurvedTabBarAdapter from './src/navigations/CurvedTabBarAdapter';
 
-import BloodRecordScreen from './src/screens/blood/BloodRecordScreen';
-import ChartScreen from './src/screens/chart/ChartScreen';
+// 탭1: 메인
 import MainScreen from './src/screens/main/MainScreen';
-import MenuRecordScreen from './src/screens/menu/MenuRecordScreen';
 import CameraScreen from './src/screens/main/CameraScreen';
+// import CameraResultScreen from './src/screens/main/CameraResultScreen'; // 있다면 주석 해제
 
+// 탭2: 혈당
+import BloodRecordScreen from './src/screens/blood/BloodRecordScreen';
+import BloodSugarAddScreen from './src/screens/blood/BloodSugarAddScreen';
+// import BloodSugarEditScreen from './src/screens/blood/BloodSugarEditScreen'; // 있다면 주석 해제
+
+// 탭3: 식단 정보
+import MenuRecordScreen from './src/screens/menu/MenuRecordScreen';
+// import FoodDetailScreen from './src/screens/menu/FoodDetailScreen'; // 있다면 주석 해제
+
+// 탭4: 통계/마이페이지
+import ChartScreen from './src/screens/chart/ChartScreen';
+// import ProfileScreen from './src/screens/profile/ProfileScreen'; // 있다면 주석 해제
+
+// 인증
 import LoginScreen from './src/screens/LoginScreen';
 import { SessionProvider } from './src/session/SessionProvider';
-import RenderTest from './RenderTest';
+// import { SessionProvider } from './src/session/SessionProvider'; // 세션 컨텍스트가 필요하면 주석 해제
 
-const TAB_SCREENS = {
-	main: MainScreen,
-	blood: BloodRecordScreen,
-	menu: MenuRecordScreen,
-	chart: ChartScreen,
-};
-
+const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const TabScreens = ({ activeKey, setActiveKey, route }) => {
-	const ActiveScreen = TAB_SCREENS[activeKey];
-	// 로그인 직후 전달받은 코드(있을 수도, 없을 수도)z
-	const kakaoCode = route?.params?.kakaoCode ?? null;
-	// console.log(kakaoCode);
-
-	// 필요하다면 여기서 kakaoCode로 백엔드에 신호 보내거나
-	// 한 번 사용 후 무시하는 로직을 넣을 수 있음.
-
+/* ─────────────────────────────────────────────
+ * 탭별 스택들
+ * ───────────────────────────────────────────── */
+const MainStack = () => {
 	return (
-		<>
-			<View style={styles.container}>
-				<ActiveScreen />
-			</View>
-			<CurvedTabBar activeKey={activeKey} onTabPress={setActiveKey} />
-		</>
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="MainHome" component={MainScreen} />
+			<Stack.Screen name="CameraScreen" component={CameraScreen} />
+			{/* <Stack.Screen name="CameraResult" component={CameraResultScreen} /> */}
+		</Stack.Navigator>
 	);
 };
 
+const BloodStack = () => {
+	return (
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="BloodHome" component={BloodRecordScreen} />
+			<Stack.Screen name="BloodSugarAddScreen" component={BloodSugarAddScreen} />
+			{/* <Stack.Screen name="BloodSugarEditScreen" component={BloodSugarEditScreen} /> */}
+		</Stack.Navigator>
+	);
+};
+
+const MenuStack = () => {
+	return (
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="MenuHome" component={MenuRecordScreen} />
+			{/* <Stack.Screen name="FoodDetail" component={FoodDetailScreen} /> */}
+		</Stack.Navigator>
+	);
+};
+
+const ChartStack = () => {
+	return (
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="ChartHome" component={ChartScreen} />
+			{/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
+		</Stack.Navigator>
+	);
+};
+
+/* ─────────────────────────────────────────────
+ * 탭 네비게이터(커스텀 CurvedTabBar 장착)
+ * - name은 TABS.key와 동일: "main" | "blood" | "menu" | "chart"
+ * - kakaoCode가 있다면 초기 1회성으로 탭 스크린들에 전달(필요시 활용)
+ * ───────────────────────────────────────────── */
+const AppTabs = ({ initialKakaoCode = null }) => {
+	return (
+		<Tab.Navigator
+			screenOptions={{ headerShown: false }}
+			tabBar={(props) => <CurvedTabBarAdapter {...props} />}
+		>
+			<Tab.Screen
+				name="main"
+				component={MainStack}
+				initialParams={{ kakaoCode: initialKakaoCode }}
+			/>
+			<Tab.Screen
+				name="blood"
+				component={BloodStack}
+				initialParams={{ kakaoCode: initialKakaoCode }}
+			/>
+			<Tab.Screen
+				name="menu"
+				component={MenuStack}
+				initialParams={{ kakaoCode: initialKakaoCode }}
+			/>
+			<Tab.Screen
+				name="chart"
+				component={ChartStack}
+				initialParams={{ kakaoCode: initialKakaoCode }}
+			/>
+		</Tab.Navigator>
+	);
+};
+
+/* ─────────────────────────────────────────────
+ * 루트(App): 로그인 세션 확인 → 스택 분기
+ * - isLoggedIn: AsyncStorage('app_access_token') 유무로 판단
+ * - handleLoginSuccess: 토큰/코드 수신시 저장 및 탭으로 전환
+ * - pendingAuth.code는 Tabs로 1회 전달
+ * ───────────────────────────────────────────── */
 const App = () => {
-	const [activeKey, setActiveKey] = useState('main');
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [pendingAuth, setPendingAuth] = useState(null); // { token?: string, code?: string }
@@ -66,29 +137,23 @@ const App = () => {
 		checkSession();
 	}, []);
 
-	// LoginScreen에서 성공 신호 수신 (토큰 또는 코드)
 	const handleLoginSuccess = useCallback(async (payload) => {
 		try {
 			let token = null;
 			let code = null;
 
 			if (typeof payload === 'string') {
-				// 문자열이면 토큰으로 간주
 				token = payload;
 			} else if (payload && typeof payload === 'object') {
 				token = payload.token || payload.jwt || payload.app_token || null;
 				code = payload.code || payload.app_code || null;
 			}
 
-			// 토큰이 있으면 저장 → 로그인 완료
 			if (token) {
 				await AsyncStorage.setItem('app_access_token', token);
 			}
 
-			// 코드만 왔다면 저장은 건너뛰고 Tabs로 진입하면서 코드만 넘김
 			setPendingAuth({ token, code });
-
-			// 로그인 상태 전환 → Stack이 재마운트되며 Tabs로 진입
 			setIsLoggedIn(true);
 		} catch (e) {
 			console.warn('Login finalize error:', e?.message || e);
@@ -97,61 +162,41 @@ const App = () => {
 		}
 	}, []);
 
-	if (isLoading) return null; // 필요 시 Splash로 교체
+	if (isLoading) return null; // 스플래시가 필요하면 여기서 렌더
 
 	return (
-		
+		<SessionProvider> 
 		<SafeAreaProvider>
-			<SafeAreaView style={{flex: 1}}>
+			<SafeAreaView style={{ flex: 1 }}>
 				<StatusBar backgroundColor="#fff" barStyle="dark-content" />
-				<RenderTest />
+				<NavigationContainer>
+					<Stack.Navigator
+						key={isLoggedIn ? 'loggedIn' : 'guest'} // 상태 전환 시 초기 라우트 재평가
+						initialRouteName={isLoggedIn ? 'Tabs' : 'Login'}
+						screenOptions={{ headerShown: false }}
+					>
+						<Stack.Screen name="Login">
+							{(props) => (
+								<LoginScreen
+									{...props}
+									onLoginSuccess={handleLoginSuccess}
+								/>
+							)}
+						</Stack.Screen>
+
+						<Stack.Screen name="Tabs">
+							{() => (
+								<AppTabs
+									initialKakaoCode={pendingAuth?.code ?? null}
+								/>
+							)}
+						</Stack.Screen>
+					</Stack.Navigator>
+				</NavigationContainer>
 			</SafeAreaView>
 		</SafeAreaProvider>
-		// <SessionProvider>
-		// 	<SafeAreaProvider>
-		// 		<NavigationContainer>
-		// 			{/* isLoggedIn 변경 시 초기 라우트 반영 위해 재마운트 */}
-		// 			<Stack.Navigator
-		// 				key={isLoggedIn ? 'loggedIn' : 'guest'}
-		// 				initialRouteName={isLoggedIn ? 'Tabs' : 'Login'}
-		// 				screenOptions={{ headerShown: false }}
-		// 			>
-		// 				<Stack.Screen name="Login">
-		// 					{(props) => (
-		// 						<LoginScreen
-		// 							{...props}
-		// 							onLoginSuccess={handleLoginSuccess}
-		// 						/>
-		// 					)}
-		// 				</Stack.Screen>
-		// 				<Stack.Screen
-		// 					name="Tabs"
-		// 					// 로그인 직후 1회성으로 코드 전달 (없으면 null)
-		// 					initialParams={{ kakaoCode: pendingAuth?.code ?? null }}
-		// 				>
-		// 					{(props) => (
-		// 						<TabScreens
-		// 							{...props} // route, navigation 전달
-		// 							activeKey={activeKey}
-		// 							setActiveKey={setActiveKey}
-		// 						/>
-		// 					)}
-		// 				</Stack.Screen>
-		// 				<Stack.Screen name="CameraScreen" component={CameraScreen} />
-		// 			</Stack.Navigator>
-		// 		</NavigationContainer>
-		// 	</SafeAreaProvider>
-		// </SessionProvider>
+		</SessionProvider>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#E6F0FF',
-	},
-});
 
 export default App;

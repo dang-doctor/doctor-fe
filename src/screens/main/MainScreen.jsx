@@ -3,6 +3,9 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CameraScreen from './CameraScreen.jsx';
 import { useNavigation } from '@react-navigation/native';
+import Colors from '../../constants/colors.js';
+
+const BGCOLOR = Colors.key.background;
 
 const MainScreen = () => {
 
@@ -40,6 +43,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		width: "100%",
 		height: "100%",
+		backgroundColor: BGCOLOR,
 	},
 	mainText: {
 		// textAlign: "",
