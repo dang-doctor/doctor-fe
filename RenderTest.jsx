@@ -13,6 +13,7 @@ import BloodRecordScreen from './src/screens/blood/BloodRecordScreen';
 import BloodSugarAddScreen from './src/screens/blood/BloodSugarAddScreen';
 import MenuRecordScreen from './src/screens/menu/MenuRecordScreen';
 import ChartScreen from './src/screens/chart/ChartScreen';
+import CameraScreen from './src/screens/main/CameraScreen';
 
 // (중요) 네이밍: Tab.Screen의 name을 TABS.key(예: 'main', 'blood', 'menu', 'chat')와 맞추자.
 // 현재 상수는 { main, blood, menu, chat } 구조였음.
@@ -51,9 +52,9 @@ const MainStack = () => {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="MainHome" component={MainScreen} />
+			<Stack.Screen name="CameraScreen" component={CameraScreen} />
 			{/*
 				예: 카메라/결과 등의 후속 화면이 생기면 아래처럼 추가
-				<Stack.Screen name="Camera" component={CameraScreen} />
 				<Stack.Screen name="CameraResult" component={CameraResultScreen} />
 			*/}
 		</Stack.Navigator>

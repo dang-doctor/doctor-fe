@@ -102,6 +102,7 @@ const BloodSugarAddScreen = ({ route, navigation }) => {
 					</>
 				)}
 				<MemoBox value={memo} onChangeText={setMemo} onPressSave={handleSaveMemo} />
+				<View style={{height: 80}}></View>
 			</ScrollView>
 		</View>
 	);

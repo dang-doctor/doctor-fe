@@ -31,6 +31,7 @@ import ChartScreen from './src/screens/chart/ChartScreen';
 // 인증
 import LoginScreen from './src/screens/LoginScreen';
 import { SessionProvider } from './src/session/SessionProvider';
+import RenderTest from './RenderTest';
 // import { SessionProvider } from './src/session/SessionProvider'; // 세션 컨텍스트가 필요하면 주석 해제
 
 const Tab = createBottomTabNavigator();
@@ -165,36 +166,37 @@ const App = () => {
 	if (isLoading) return null; // 스플래시가 필요하면 여기서 렌더
 
 	return (
+		// <RenderTest />
 		<SessionProvider> 
-		<SafeAreaProvider>
-			<SafeAreaView style={{ flex: 1 }}>
-				<StatusBar backgroundColor="#fff" barStyle="dark-content" />
-				<NavigationContainer>
-					<Stack.Navigator
-						key={isLoggedIn ? 'loggedIn' : 'guest'} // 상태 전환 시 초기 라우트 재평가
-						initialRouteName={isLoggedIn ? 'Tabs' : 'Login'}
-						screenOptions={{ headerShown: false }}
-					>
-						<Stack.Screen name="Login">
-							{(props) => (
-								<LoginScreen
-									{...props}
-									onLoginSuccess={handleLoginSuccess}
-								/>
-							)}
-						</Stack.Screen>
+			<SafeAreaProvider>
+				<SafeAreaView style={{ flex: 1 }}>
+					<StatusBar backgroundColor="#fff" barStyle="dark-content" />
+					<NavigationContainer>
+						<Stack.Navigator
+							key={isLoggedIn ? 'loggedIn' : 'guest'} // 상태 전환 시 초기 라우트 재평가
+							initialRouteName={isLoggedIn ? 'Tabs' : 'Login'}
+							screenOptions={{ headerShown: false }}
+						>
+							<Stack.Screen name="Login">
+								{(props) => (
+									<LoginScreen
+										{...props}
+										onLoginSuccess={handleLoginSuccess}
+									/>
+								)}
+							</Stack.Screen>
 
-						<Stack.Screen name="Tabs">
-							{() => (
-								<AppTabs
-									initialKakaoCode={pendingAuth?.code ?? null}
-								/>
-							)}
-						</Stack.Screen>
-					</Stack.Navigator>
-				</NavigationContainer>
-			</SafeAreaView>
-		</SafeAreaProvider>
+							<Stack.Screen name="Tabs">
+								{() => (
+									<AppTabs
+										initialKakaoCode={pendingAuth?.code ?? null}
+									/>
+								)}
+							</Stack.Screen>
+						</Stack.Navigator>
+					</NavigationContainer>
+				</SafeAreaView>
+			</SafeAreaProvider>
 		</SessionProvider>
 	);
 };

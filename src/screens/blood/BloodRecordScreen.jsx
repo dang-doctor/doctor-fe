@@ -5,8 +5,10 @@ import DateHeader from '../../components/DateHeader';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import BloodSugarRegister from '../../components/BloodSugarRegister';
 import { useNavigation } from '@react-navigation/native';
+import Colors from '../../constants/colors';
 
 const MAIN_FONT = 'ONE Mobile POP OTF';
+const BGCOLOR = Colors.key.background;
 
 const BloodRecordScreen = () => {
 	const insets = useSafeAreaInsets();
@@ -86,6 +88,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingBottom: 120,
 		position: 'relative',
+		backgroundColor: BGCOLOR,
 	},
 	topBar: {
 		width: "100%",
