@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 const ChartScreen = () => {
 	return (
@@ -8,5 +8,9 @@ const ChartScreen = () => {
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	
+});
 
 export default ChartScreen;

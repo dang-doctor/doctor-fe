@@ -171,7 +171,11 @@ const LoginScreen = ({ navigation, onLoginSuccess }) => {
 		<View style={styles.container}>
 			<Image source={require('../assets/images/logo.png')} style={styles.logo} />
 			<TouchableOpacity style={styles.kakaoBtn} onPress={() => setShowWebView(true)}>
-				<Text style={styles.btnText}>카카오로 로그인</Text>
+				{/* <Text style={styles.btnText}>카카오로 로그인</Text> */}
+				<Image
+					source={require("../assets/images/kakao_login_large_wide.png")}
+					style={styles.btnImg}
+				/>
 			</TouchableOpacity>
 		</View>
 	);
@@ -187,14 +191,19 @@ const styles = StyleSheet.create({
 		backgroundColor: '#E6F0FF'
 	},
 	kakaoBtn: {
-		backgroundColor: '#FEE500',
-		padding: 14,
+		// backgroundColor: '#FEE500',
+		padding: 0,
 		borderRadius: 8
 	},
 	btnText: {
 		color: '#3C1E1E',
 		fontSize: 18,
 		fontWeight: 'bold'
+	},
+	btnImg: {
+		width: 500,
+		height: '24%',
+		resizeMode: 'contain',
 	},
 	logo: {
 		width: '70%',
