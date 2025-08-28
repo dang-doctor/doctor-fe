@@ -2,18 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import Config from 'react-native-config';
 import Colors from '../../constants/colors';
+import FoodDetailSheet from '../../components/FoodDetailSheet';
 
 const API_URL = Config.API_BASE_URL;
 const MAIN_FONT = 'ONE Mobile POP OTF';
 const BGCOLOR = Colors.key.background;
 
 const MenuRecordScreen = () => {
-
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [mode, setMode] = useState('good'); // 'good' | 'bad'
 	const [selectedCategory, setSelectedCategory] = useState('음식');
+	const [selectedFood, setSelectedFood] = useState(null);
+	const [showFoodDetail, setShowFoodDetail] = useState(false);
 
 	useEffect(()=>{
 		const fetchData = async () => {
@@ -54,9 +56,8 @@ const MenuRecordScreen = () => {
 	const items = getItemsByCategory(selectedCategory);
 
 	const onPressItem = (item) => {
-		// 추후 상세 정보 표시를 위한 클릭 핸들러 자리
-		// 예: navigation.navigate('FoodDetail', { item })
-		console.log('[food-click]', item?.id);
+		setSelectedFood(item);
+		setShowFoodDetail(true);
 	};
 	
 	if (loading) {
@@ -125,6 +126,13 @@ const MenuRecordScreen = () => {
 					</TouchableOpacity>
 				))}
 			</ScrollView>
+
+			{/* FoodDetailSheet 모달 */}
+			<FoodDetailSheet
+				visible={showFoodDetail}
+				onClose={() => setShowFoodDetail(false)}
+				item={selectedFood}
+			/>
 		</View>
 	);
 };
