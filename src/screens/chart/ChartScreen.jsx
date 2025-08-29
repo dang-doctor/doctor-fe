@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Colors from '../../constants/colors';
 import Config from 'react-native-config';
 import { useSession } from '../../session/SessionProvider';
@@ -14,7 +14,10 @@ const ChartScreen = () => {
 	const [mode, setMode] = useState('weekly');
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const { isReady, token, user } = useSession();
+	const { isReady, user } = useSession();
+
+	const calList = [1800, 1200, 800, 1600, 2000, 1400, 1000];
+	const calAvg = calList.reduce((sum, v) => sum + v, 0) / calList.length;
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -40,6 +43,7 @@ const ChartScreen = () => {
 		fetchData()
 		.then((d) => {
 			setData(d);
+
 		})
 		.then(() => {
 			console.log(data);
@@ -73,9 +77,29 @@ const ChartScreen = () => {
 						<Text style={styles.statusText}>불러오는 중...</Text>
 					</View>
 				) : (
-					<View>
-						<WeeklyCaloriesChart />
-					</View>
+					<ScrollView
+						contentContainerStyle={{ paddingHorizontal: 30, paddingVertical: 30, alignItems: 'center' }}
+					>
+						<WeeklyCaloriesChart
+							height={160}
+							values={calList}
+						/>
+						<View style={styles.rowContainer} >
+							<View style={styles.rowComponent}>
+								<Text style={styles.avgLabel}>평균 칼로리</Text>
+								<Text style={styles.avgText}>
+									<Text style={styles.avgNumber}>{calAvg}</Text>kcal
+								</Text>
+							</View>
+							<View style={styles.rowComponent}>
+								<Text style={styles.avgLabel}>평균 당류</Text>
+								<Text style={styles.avgText}>
+									<Text style={styles.avgNumber}>{calAvg}</Text>g
+								</Text>
+							</View>
+							
+						</View>
+					</ScrollView>
 				)
 			}
 			
@@ -131,6 +155,34 @@ const styles = StyleSheet.create({
 	},
 	modeButtonTextActive: { color: '#fff' },
 	modeButtonTextInactive: { color: '#8089a7' },
+	scrollView: {
+		padding: 20,
+	},
+	rowContainer: {
+		width: '100%',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingVertical: 15,
+	},
+	rowComponent: {
+		backgroundColor: '#fff',
+		width: '48%',
+		borderRadius: 16,
+	},
+	avgLabel:{
+		textAlign: 'center',
+		fontSize: 14,
+		padding: 10,
+	},
+	avgText:{
+		textAlign: 'center',
+		fontSize: 14,
+		paddingBottom: 10,
+	},
+	avgNumber:{
+		fontSize: 20,
+		fontWeight: 600,
+	}
 });
 
 export default ChartScreen;
