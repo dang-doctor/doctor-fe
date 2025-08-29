@@ -72,7 +72,7 @@ const BloodRecordScreen = () => {
 			</View>
 			<Image
 				pointerEvents="none"
-				source={require('../../assets/images/character_inBloodScreen.png')}
+				source={require('../../assets/images/character_in_bloodscreen.png')}
 				style={styles.charImg}	
 			/>
 		</View>

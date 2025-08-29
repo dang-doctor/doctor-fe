@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Colors from '../../constants/colors';
 import Config from 'react-native-config';
 import { useSession } from '../../session/SessionProvider';
 import WeeklyCaloriesChart from '../../components/WeeklyCaloriesChart';
 import PieChartCard from '../../components/PieChartCard';
+import { Col, Grid, Row } from 'react-native-easy-grid';
+import BloodSugarSummaryCard from '../../components/BloodSugarSummaryCard';
 
 const API_URL = Config.API_BASE_URL;
 const MAIN_FONT = 'ONE Mobile POP OTF';
@@ -59,7 +61,7 @@ const ChartScreen = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.headerText}>식단 정보</Text>
+			<Text style={styles.headerText}>종합 통계</Text>
 			<View style={styles.modeToggleRow}>
 				<TouchableOpacity
 					style={[styles.modeButton, mode === 'weekly' ? styles.modeButtonActive : styles.modeButtonInactive]}
@@ -81,7 +83,7 @@ const ChartScreen = () => {
 					</View>
 				) : (
 					<ScrollView
-						contentContainerStyle={{ paddingHorizontal: 30, paddingVertical: 30, alignItems: 'center' }}
+						contentContainerStyle={{ paddingHorizontal: 30, paddingTop: 30, paddingBottom: 90, alignItems: 'center', }}
 					>
 						<WeeklyCaloriesChart
 							height={160}
@@ -106,6 +108,12 @@ const ChartScreen = () => {
 							carb={55}
 							protein={25}
 							fat={20}
+						/>
+						<BloodSugarSummaryCard 
+							wakeup={123}
+							morning={123}
+							noon={100}
+							evening={110}
 						/>
 					</ScrollView>
 				)
@@ -190,7 +198,7 @@ const styles = StyleSheet.create({
 	avgNumber:{
 		fontSize: 20,
 		fontWeight: 600,
-	}
+	},
 });
 
 export default ChartScreen;

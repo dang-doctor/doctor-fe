@@ -13,7 +13,17 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		6F818AC11F8C45DFB5F97BA2 /* Cafe24Ssukssuk-v2.0.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65D95312ABD6444192D93EAE /* Cafe24Ssukssuk-v2.0.otf */; };
 		D1BC99E041AF490092C830CF /* ONE Mobile POP OTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = FDF11C4E3D774FA391A5734B /* ONE Mobile POP OTF.otf */; };
-		9742A7C6585646A493003B7C /* character.png in Resources */ = {isa = PBXBuildFile; fileRef = F5F2A80E577741DD9E65340F /* character.png */; };
+		8CEC0B3B89CB4DCBBFD3DA26 /* NotoSansKR-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4650D12A23EF404A84035605 /* NotoSansKR-VariableFont_wght.ttf */; };
+		A4FA6DDEEE8D408DB3E69048 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 718277B87CF644D09DA30EB1 /* app_icon.png */; };
+		5E87842E5FDA45BE82EBF737 /* character.png in Resources */ = {isa = PBXBuildFile; fileRef = 1482BCAD5DA04C259E2BFBE7 /* character.png */; };
+		684E3392CBE749BFBF96BDB1 /* cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = C8A2C64F0AC343F4B0959796 /* cloud.png */; };
+		2A10EC5BD8F34123A7FD90A3 /* evening.png in Resources */ = {isa = PBXBuildFile; fileRef = F39307CC5F1D47E199B75AA8 /* evening.png */; };
+		3B5A967A28574E3E9439F69F /* kakao_login_large_wide.png in Resources */ = {isa = PBXBuildFile; fileRef = F6B5629C6D58428586F876CC /* kakao_login_large_wide.png */; };
+		DE385709E4014328930D4C3A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B14E5989128D4205B404B9AE /* logo.png */; };
+		7213FEB6CE9D423D82127B15 /* morning.png in Resources */ = {isa = PBXBuildFile; fileRef = 25B69B86A3D54F3A864BDB31 /* morning.png */; };
+		A1B2A973029B48C9BDED2A3E /* noon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F9CCCAF2051489DB2DAAA3F /* noon.png */; };
+		0CBFC8C7B216409FB467FCEC /* wakeup.png in Resources */ = {isa = PBXBuildFile; fileRef = 84454846D9594937ABDF6EBC /* wakeup.png */; };
+		8323663DCC1A4E418C3DD9D2 /* character_in_bloodscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E35A099AED24FCC877759B4 /* character_in_bloodscreen.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +50,17 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		65D95312ABD6444192D93EAE /* Cafe24Ssukssuk-v2.0.otf */ = {isa = PBXFileReference; name = "Cafe24Ssukssuk-v2.0.otf"; path = "../src/assets/fonts/Cafe24Ssukssuk-v2.0.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		FDF11C4E3D774FA391A5734B /* ONE Mobile POP OTF.otf */ = {isa = PBXFileReference; name = "ONE Mobile POP OTF.otf"; path = "../src/assets/fonts/ONE Mobile POP OTF.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F5F2A80E577741DD9E65340F /* character.png */ = {isa = PBXFileReference; name = "character.png"; path = "../src/assets/images/character.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4650D12A23EF404A84035605 /* NotoSansKR-VariableFont_wght.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-VariableFont_wght.ttf"; path = "../src/assets/fonts/NotoSansKR-VariableFont_wght.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		718277B87CF644D09DA30EB1 /* app_icon.png */ = {isa = PBXFileReference; name = "app_icon.png"; path = "../src/assets/images/app_icon.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1482BCAD5DA04C259E2BFBE7 /* character.png */ = {isa = PBXFileReference; name = "character.png"; path = "../src/assets/images/character.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C8A2C64F0AC343F4B0959796 /* cloud.png */ = {isa = PBXFileReference; name = "cloud.png"; path = "../src/assets/images/cloud.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F39307CC5F1D47E199B75AA8 /* evening.png */ = {isa = PBXFileReference; name = "evening.png"; path = "../src/assets/images/evening.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F6B5629C6D58428586F876CC /* kakao_login_large_wide.png */ = {isa = PBXFileReference; name = "kakao_login_large_wide.png"; path = "../src/assets/images/kakao_login_large_wide.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B14E5989128D4205B404B9AE /* logo.png */ = {isa = PBXFileReference; name = "logo.png"; path = "../src/assets/images/logo.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		25B69B86A3D54F3A864BDB31 /* morning.png */ = {isa = PBXFileReference; name = "morning.png"; path = "../src/assets/images/morning.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2F9CCCAF2051489DB2DAAA3F /* noon.png */ = {isa = PBXFileReference; name = "noon.png"; path = "../src/assets/images/noon.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		84454846D9594937ABDF6EBC /* wakeup.png */ = {isa = PBXFileReference; name = "wakeup.png"; path = "../src/assets/images/wakeup.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8E35A099AED24FCC877759B4 /* character_in_bloodscreen.png */ = {isa = PBXFileReference; name = "character_in_bloodscreen.png"; path = "../src/assets/images/character_in_bloodscreen.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +148,17 @@
 			children = (
 				65D95312ABD6444192D93EAE /* Cafe24Ssukssuk-v2.0.otf */,
 				FDF11C4E3D774FA391A5734B /* ONE Mobile POP OTF.otf */,
-				F5F2A80E577741DD9E65340F /* character.png */,
+				4650D12A23EF404A84035605 /* NotoSansKR-VariableFont_wght.ttf */,
+				718277B87CF644D09DA30EB1 /* app_icon.png */,
+				1482BCAD5DA04C259E2BFBE7 /* character.png */,
+				C8A2C64F0AC343F4B0959796 /* cloud.png */,
+				F39307CC5F1D47E199B75AA8 /* evening.png */,
+				F6B5629C6D58428586F876CC /* kakao_login_large_wide.png */,
+				B14E5989128D4205B404B9AE /* logo.png */,
+				25B69B86A3D54F3A864BDB31 /* morning.png */,
+				2F9CCCAF2051489DB2DAAA3F /* noon.png */,
+				84454846D9594937ABDF6EBC /* wakeup.png */,
+				8E35A099AED24FCC877759B4 /* character_in_bloodscreen.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -205,7 +235,17 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				6F818AC11F8C45DFB5F97BA2 /* Cafe24Ssukssuk-v2.0.otf in Resources */,
 				D1BC99E041AF490092C830CF /* ONE Mobile POP OTF.otf in Resources */,
-				9742A7C6585646A493003B7C /* character.png in Resources */,
+				8CEC0B3B89CB4DCBBFD3DA26 /* NotoSansKR-VariableFont_wght.ttf in Resources */,
+				A4FA6DDEEE8D408DB3E69048 /* app_icon.png in Resources */,
+				5E87842E5FDA45BE82EBF737 /* character.png in Resources */,
+				684E3392CBE749BFBF96BDB1 /* cloud.png in Resources */,
+				2A10EC5BD8F34123A7FD90A3 /* evening.png in Resources */,
+				3B5A967A28574E3E9439F69F /* kakao_login_large_wide.png in Resources */,
+				DE385709E4014328930D4C3A /* logo.png in Resources */,
+				7213FEB6CE9D423D82127B15 /* morning.png in Resources */,
+				A1B2A973029B48C9BDED2A3E /* noon.png in Resources */,
+				0CBFC8C7B216409FB467FCEC /* wakeup.png in Resources */,
+				8323663DCC1A4E418C3DD9D2 /* character_in_bloodscreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

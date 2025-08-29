@@ -6,12 +6,52 @@
       "sha1": "e0a1e815729252d94c66aa3b8d379d8d66a5f369"
     },
     {
+      "path": "src/assets/fonts/NotoSansKR-VariableFont_wght.ttf",
+      "sha1": "da8ef76ac01bec36758996a4a35ce4ff32fd119c"
+    },
+    {
       "path": "src/assets/fonts/ONE Mobile POP OTF.otf",
       "sha1": "47545a29a8912fa557528b07058ed798aef8e80e"
     },
     {
+      "path": "src/assets/images/app_icon.png",
+      "sha1": "a28d84ebaa0a468d7f253187fd84cbe8805cfa9a"
+    },
+    {
       "path": "src/assets/images/character.png",
-      "sha1": "5fa63d86772cc4f000bdf12f9e5038e4ba4783af"
+      "sha1": "8a41682c04569b06f97bd6de928515ee6aa5225d"
+    },
+    {
+      "path": "src/assets/images/character_in_bloodscreen.png",
+      "sha1": "499a984c321eaea7d08a9a67b8d488e1e95d686f"
+    },
+    {
+      "path": "src/assets/images/cloud.png",
+      "sha1": "efaf008c70ce3144882d3b03a223abe9a2546816"
+    },
+    {
+      "path": "src/assets/images/evening.png",
+      "sha1": "eda86708cfae8c331f0ff53c89990cfafc575460"
+    },
+    {
+      "path": "src/assets/images/kakao_login_large_wide.png",
+      "sha1": "bf5265e12ba30b9cb07431cc30e30c3400dba2d2"
+    },
+    {
+      "path": "src/assets/images/logo.png",
+      "sha1": "234f9add8345b9ed3566832e0955b3b749ed63a0"
+    },
+    {
+      "path": "src/assets/images/morning.png",
+      "sha1": "f44e6edaf5cc752a51a184baa8d57f724020aad6"
+    },
+    {
+      "path": "src/assets/images/noon.png",
+      "sha1": "7c36be4c327ba4e8a055c175b78a7690796a4c25"
+    },
+    {
+      "path": "src/assets/images/wakeup.png",
+      "sha1": "13f9169661db7c0c6342738718c61be583997275"
     }
   ]
 }
