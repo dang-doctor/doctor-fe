@@ -25,6 +25,7 @@ const MyPageScreen = () => {
 	const [weight, setWeight] = useState('');
 	const [activity, setActivity] = useState(null);
 
+	// 🔹 탄단지 UI는 제거했지만, 기존 상태값/로직은 유지 (네가 수정해둔 것 살림)
 	const [carb, setCarb] = useState(55);
 	const [protein, setProtein] = useState(15);
 	const [fat, setFat] = useState(20);
@@ -34,6 +35,25 @@ const MyPageScreen = () => {
 		[carb, protein, fat]
 	);
 
+	// 🔹 결과 상태 추가
+	const [result, setResult] = useState(null);	// { stdWeight, minKcal, maxKcal, midKcal }
+
+	// 🔹 활동계수 범위 매핑 (가벼운 25~30 / 보통 30~35 / 힘든 35~40)
+	const getActivityRange = (label) => {
+		if (!label) return null;
+		if (label === '가벼운 활동') return [25, 30];
+		if (label === '보통 활동') return [30, 35];
+		if (label === '힘든 활동') return [35, 40];
+		return null;
+	};
+
+	// 🔹 표준체중 계산: 남(22), 여(21)
+	const calcStdWeight = (g, hMeter) => {
+		if (!g || !hMeter) return null;
+		const factor = g === '남' ? 22 : 21;
+		return Math.pow(hMeter, 2) * factor;
+	};
+
 	const onSave = () => {
 		if (!gender) return Alert.alert('확인', '성별을 선택해 주세요.');
 		if (!height) return Alert.alert('확인', '키를 입력해 주세요.');
@@ -42,6 +62,30 @@ const MyPageScreen = () => {
 		// if (total !== 100)
 		// 	return Alert.alert('확인', `탄/단/지 합이 100%가 아닙니다. (현재 ${total}%)`);
 
+		const hMeter = Number(height) / 100;
+		if (!hMeter || Number.isNaN(hMeter)) {
+			return Alert.alert('확인', '키는 숫자로 입력해 주세요.');
+		}
+
+		// 🔹 계산
+		const stdWeight = calcStdWeight(gender, hMeter);
+		const range = getActivityRange(activity);
+		if (!stdWeight || !range) {
+			return Alert.alert('확인', '계산을 위한 값이 올바르지 않습니다.');
+		}
+
+		const minKcal = Math.round(stdWeight * range[0]);
+		const maxKcal = Math.round(stdWeight * range[1]);
+		const midKcal = Math.round((minKcal + maxKcal) / 2);
+
+		setResult({
+			stdWeight: Math.round(stdWeight * 10) / 10, // 소수 1자리 반올림
+			minKcal,
+			maxKcal,
+			midKcal,
+		});
+
+		// 🔹 세션 저장 (네가 유지한 prefs 구조 그대로)
 		const prefs = {
 			gender,
 			height: Number(height),
@@ -52,7 +96,7 @@ const MyPageScreen = () => {
 		};
 
 		saveUserPrefs(prefs);
-		Alert.alert('저장 완료', '입력값이 세션에 저장되었습니다.');
+		Alert.alert('저장 완료', '입력값이 세션에 저장되고, 결과가 계산되었습니다.');
 	};
 
 	return (
@@ -132,61 +176,46 @@ const MyPageScreen = () => {
 									<Text style={styles.radioLabel}>{level}</Text>
 									<Text style={styles.radioSub}>
 										{level === '가벼운 활동' &&
-											'평소에 앉아서 생활할 때'}
+											'평소에 앉아서 생활할 때 (25~30)'}
 										{level === '보통 활동' &&
-											'걷거나 가벼운 활동이 많을 때'}
+											'걷거나 가벼운 활동이 많을 때 (30~35)'}
 										{level === '힘든 활동' &&
-											'평소 운동량(움직임)이 많을 때'}
+											'운동량(움직임)이 많은 편 (35~40)'}
 									</Text>
 								</View>
 							</TouchableOpacity>
 						))}
 					</View>
 
-					{/* 탄단지 */}
-					{/* <Text style={styles.label}>탄단지 비율 설정 (총합 100%)</Text>
-					<View style={styles.box}>
-						<View style={styles.sliderRow}>
-							<Text style={styles.sliderLabel}>탄수화물 {carb}%</Text>
-							<Slider
-								style={{ flex: 1 }}
-								value={carb}
-								minimumValue={0}
-								maximumValue={100}
-								step={1}
-								onValueChange={setCarb}
-							/>
-						</View>
-						<View style={styles.sliderRow}>
-							<Text style={styles.sliderLabel}>단백질 {protein}%</Text>
-							<Slider
-								style={{ flex: 1 }}
-								value={protein}
-								minimumValue={0}
-								maximumValue={100}
-								step={1}
-								onValueChange={setProtein}
-							/>
-						</View>
-						<View style={styles.sliderRow}>
-							<Text style={styles.sliderLabel}>지방 {fat}%</Text>
-							<Slider
-								style={{ flex: 1 }}
-								value={fat}
-								minimumValue={0}
-								maximumValue={100}
-								step={1}
-								onValueChange={setFat}
-							/>
-						</View>
-						<Text style={styles.totalTip}>합계: {total}%</Text>
-					</View> */}
-
-					{/* 저장 버튼 */}
+					{/* 저장 + 계산 버튼 */}
 					<TouchableOpacity style={styles.saveBtn} onPress={onSave}>
-						<Text style={styles.saveText}>저장</Text>
+						<Text style={styles.saveText}>저장 및 계산하기</Text>
 					</TouchableOpacity>
+
+					{/* 결과 렌더링 */}
+					{result && (
+						<View style={[styles.box, { marginTop: 12 }]}>
+							<Text style={styles.resultTitle}>계산 결과</Text>
+							<Text style={styles.resultLine}>
+								표준체중: <Text style={styles.resultStrong}>{result.stdWeight} kg</Text>
+							</Text>
+							<Text style={styles.resultLine}>
+								하루 섭취열량(범위):{' '}
+								<Text style={styles.resultStrong}>
+									{result.minKcal} ~ {result.maxKcal} kcal
+								</Text>
+							</Text>
+							<Text style={styles.resultLine}>
+								권장 기준(중간값):{' '}
+								<Text style={styles.resultStrong}>{result.midKcal} kcal</Text>
+							</Text>
+							<Text style={styles.resultHint}>
+								※ 예) 165cm, 여: 1.65² × 21 × (활동계수) → 25~30 / 30~35 / 35~40
+							</Text>
+						</View>
+					)}
 				</View>
+
 			</ScrollView>
 		</View>
 	);
@@ -254,6 +283,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	saveText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
+	resultTitle: { fontFamily: MAIN_FONT, fontSize: 16, marginBottom: 8 },
+	resultLine: { fontSize: 14, marginVertical: 2 },
+	resultStrong: { fontWeight: 'bold' },
+	resultHint: { marginTop: 6, fontSize: 12, color: '#777' },
 });
 
 export default MyPageScreen;
