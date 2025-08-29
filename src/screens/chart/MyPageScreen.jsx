@@ -39,8 +39,8 @@ const MyPageScreen = () => {
 		if (!height) return Alert.alert('확인', '키를 입력해 주세요.');
 		if (!weight) return Alert.alert('확인', '몸무게를 입력해 주세요.');
 		if (!activity) return Alert.alert('확인', '활동 수준을 선택해 주세요.');
-		if (total !== 100)
-			return Alert.alert('확인', `탄/단/지 합이 100%가 아닙니다. (현재 ${total}%)`);
+		// if (total !== 100)
+		// 	return Alert.alert('확인', `탄/단/지 합이 100%가 아닙니다. (현재 ${total}%)`);
 
 		const prefs = {
 			gender,
