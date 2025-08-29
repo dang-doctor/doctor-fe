@@ -7,6 +7,7 @@ import WeeklyCaloriesChart from '../../components/WeeklyCaloriesChart';
 import PieChartCard from '../../components/PieChartCard';
 import { Col, Grid, Row } from 'react-native-easy-grid';
 import BloodSugarSummaryCard from '../../components/BloodSugarSummaryCard';
+import BloodLineChart from '../../components/BloodLineChart';
 
 const API_URL = Config.API_BASE_URL;
 const MAIN_FONT = 'ONE Mobile POP OTF';
@@ -114,6 +115,32 @@ const ChartScreen = () => {
 							morning={123}
 							noon={100}
 							evening={110}
+						/>
+						<BloodLineChart
+							title="공복/식전 혈당"
+							labels={['월', '화', '수', '목', '금', '토', '일']}
+							dataSets={[
+								{
+									label: '기상직후',
+									values: [110, 95, 114, 100, 108, 120, 125],
+									color: (o = 1) => `rgba(214, 88, 255, 1)`,
+								},
+								{
+									label: '아침',
+									values: [118, 110, 115, 105, 120, 112, 138],
+									color: (o = 1) => `rgba(230, 178, 26, 1)`,
+								},
+								{
+									label: '점심',
+									values: [112, 116, 108, 118, 110, 118, 120],
+									color: (o = 1) => `rgba(222, 222, 52, 1)`,
+								},
+								{
+									label: '저녁',
+									values: [115, 120, 122, 113, 106, 110, 128],
+									color: (o = 1) => `rgba(66, 135, 245, 1)`,
+								},
+							]}
 						/>
 					</ScrollView>
 				)

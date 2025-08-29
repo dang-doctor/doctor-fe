@@ -78,9 +78,6 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		marginBottom: 12,
 	},
-	gird: {
-
-	},
 	col: {
 		flexDirection: 'row',
 		alignItems: 'center',
