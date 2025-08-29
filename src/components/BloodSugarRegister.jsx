@@ -18,9 +18,10 @@ const texts ={
 	evening: '저녁',
 }
 
-const BloodSugarRegister = ({ icon, sugarAmount=0, onPress }) => {
-
-
+const BloodSugarRegister = ({ icon, value, onPress }) => {
+	// 혈당 값이 있으면 표시, 없으면 "측정 안함" 표시
+	const displayValue = value !== null && value !== undefined ? value : '측정 안함';
+	const hasValue = value !== null && value !== undefined;
 
 	return (
 		<View style={styles.box}>
@@ -34,9 +35,11 @@ const BloodSugarRegister = ({ icon, sugarAmount=0, onPress }) => {
 				</View>
 				<PlusButton size={40} strokeWidth={4} onPress={onPress}/>
 			</View>
-			<Text style={styles.sugarAmount}>
-				<Text style={styles.sugarValue}>{sugarAmount} </Text>
-				mg/dL
+			<Text style={[styles.sugarAmount, !hasValue && styles.noValue]}>
+				<Text style={[styles.sugarValue, !hasValue && styles.noValueText]}>
+					{displayValue}
+				</Text>
+				{hasValue && ' mg/dL'}
 			</Text>
 		</View>
 	);
@@ -76,6 +79,12 @@ const styles = StyleSheet.create({
 	},
 	sugarValue: {
 		fontSize: 24,
+	},
+	noValue: {
+		opacity: 0.7,
+	},
+	noValueText: {
+		fontSize: 16,
 	},
 });
 
