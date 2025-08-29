@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
 	wrapper: {
 		alignItems: 'center',
 		width: '100%',
+		margin: 10,
 	},
 	card: {
 		width: '100%',

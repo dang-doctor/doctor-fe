@@ -8,6 +8,7 @@ import PieChartCard from '../../components/PieChartCard';
 import { Col, Grid, Row } from 'react-native-easy-grid';
 import BloodSugarSummaryCard from '../../components/BloodSugarSummaryCard';
 import BloodLineChart from '../../components/BloodLineChart';
+import ChartCharcterCard from '../../components/ChartCharcterCard';
 
 const API_URL = Config.API_BASE_URL;
 const MAIN_FONT = 'ONE Mobile POP OTF';
@@ -82,10 +83,11 @@ const ChartScreen = () => {
 					<View style={styles.contentWrapper}>
 						<Text style={styles.statusText}>불러오는 중...</Text>
 					</View>
-				) : (
+				) : mode === 'weekly' ? (
 					<ScrollView
 						contentContainerStyle={{ paddingHorizontal: 30, paddingTop: 30, paddingBottom: 90, alignItems: 'center', }}
 					>
+						<ChartCharcterCard condition={'good'}/>
 						<WeeklyCaloriesChart
 							height={160}
 							values={calList}
@@ -105,7 +107,8 @@ const ChartScreen = () => {
 							</View>
 						</View>
 						<PieChartCard
-							offsetX={30} offsetY={-4}
+							offsetX={30}
+							offsetY={-4}
 							carb={55}
 							protein={25}
 							fat={20}
@@ -141,6 +144,39 @@ const ChartScreen = () => {
 									color: (o = 1) => `rgba(66, 135, 245, 1)`,
 								},
 							]}
+						/>
+					</ScrollView>
+				) : (
+					<ScrollView
+						contentContainerStyle={{ paddingHorizontal: 30, paddingTop: 30, paddingBottom: 90, alignItems: 'center', }}
+					>
+						<ChartCharcterCard condition={'good'}/>
+						<View style={styles.rowContainer} >
+							<View style={styles.rowComponent}>
+								<Text style={styles.avgLabel}>평균 칼로리</Text>
+								<Text style={styles.avgText}>
+									<Text style={styles.avgNumber}>{calAvg}</Text>kcal
+								</Text>
+							</View>
+							<View style={styles.rowComponent}>
+								<Text style={styles.avgLabel}>평균 당류</Text>
+								<Text style={styles.avgText}>
+									<Text style={styles.avgNumber}>{calAvg}</Text>g
+								</Text>
+							</View>
+						</View>
+						<PieChartCard
+							offsetX={30}
+							offsetY={-4}
+							carb={48}
+							fat={20}
+							protein={27}
+						/>
+						<BloodSugarSummaryCard
+							wakeup={123}
+							morning={123}
+							noon={100}
+							evening={110}
 						/>
 					</ScrollView>
 				)
