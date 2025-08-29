@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
 	},
 	imgDescription: {
 		textAlign: 'center',
+		fontSize: 12,
 	},
 	sugarAmount: {
 		fontSize: 20,
