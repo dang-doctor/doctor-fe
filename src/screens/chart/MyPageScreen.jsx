@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
 	headerText: {
 		fontFamily: MAIN_FONT,
 		fontSize: 16,
-		paddingTop: 16,
+		paddingVertical: 16,
 		paddingHorizontal: 20,
 	},
 	scrollView: { flex: 1, width: '100%' },
