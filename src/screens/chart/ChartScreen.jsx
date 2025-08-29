@@ -9,6 +9,8 @@ import { Col, Grid, Row } from 'react-native-easy-grid';
 import BloodSugarSummaryCard from '../../components/BloodSugarSummaryCard';
 import BloodLineChart from '../../components/BloodLineChart';
 import ChartCharcterCard from '../../components/ChartCharcterCard';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
 const API_URL = Config.API_BASE_URL;
 const MAIN_FONT = 'ONE Mobile POP OTF';
@@ -20,6 +22,7 @@ const ChartScreen = () => {
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const { isReady, user, idToken } = useSession();
+	const navigation = useNavigation();
 
 	const calList = [1800, 1200, 800, 1600, 2000, 1400, 1000];
 	const calAvg = calList.reduce((sum, v) => sum + v, 0) / calList.length;
@@ -63,7 +66,15 @@ const ChartScreen = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.headerText}>종합 통계</Text>
+			<View style={styles.topBar}>
+				<Text style={styles.headerText}>종합 통계</Text>
+				<TouchableOpacity
+					style={styles.iconBtn}
+					onPress={()=>{navigation.navigate('MyPageScreen')}}
+				>
+					<Ionicons name='person' size={30} color='#929EFF' />
+				</TouchableOpacity>
+			</View>
 			<View style={styles.modeToggleRow}>
 				<TouchableOpacity
 					style={[styles.modeButton, mode === 'weekly' ? styles.modeButtonActive : styles.modeButtonInactive]}
@@ -85,7 +96,7 @@ const ChartScreen = () => {
 					</View>
 				) : mode === 'weekly' ? (
 					<ScrollView
-						contentContainerStyle={{ paddingHorizontal: 30, paddingTop: 30, paddingBottom: 90, alignItems: 'center', }}
+					contentContainerStyle={{ paddingHorizontal: 30, paddingTop: 30, paddingBottom: 90, alignItems: 'center', }}
 					>
 						<ChartCharcterCard condition={'good'}/>
 						<WeeklyCaloriesChart
@@ -192,15 +203,24 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: BGCOLOR,
 	},
+	topBar: {
+		backgroundColor: '#fff',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
 	headerText: {
 		fontFamily: MAIN_FONT,
 		fontSize: 20,
 		color: '#111',
 		backgroundColor: '#fff',
-		width: '100%',
+		// width: '100%',
 		height: 60,
 		textAlignVertical: 'center',
 		paddingLeft: 20,
+	},
+	iconBtn: {
+		paddingHorizontal: 20,
+		paddingVertical: 10,
 	},
 	contentWrapper: {
 		flex: 1,

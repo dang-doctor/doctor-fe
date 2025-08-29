@@ -32,6 +32,7 @@ import ChartScreen from './src/screens/chart/ChartScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import { SessionProvider } from './src/session/SessionProvider';
 import RenderTest from './RenderTest';
+import MyPageScreen from './src/screens/chart/MyPageScreen';
 // import { SessionProvider } from './src/session/SessionProvider'; // 세션 컨텍스트가 필요하면 주석 해제
 
 const Tab = createBottomTabNavigator();
@@ -73,6 +74,7 @@ const ChartStack = () => {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="ChartHome" component={ChartScreen} />
+			<Stack.Screen name="MyPageScreen" component={MyPageScreen} />
 			{/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
 		</Stack.Navigator>
 	);
