@@ -4,6 +4,7 @@ import Colors from '../../constants/colors';
 import Config from 'react-native-config';
 import { useSession } from '../../session/SessionProvider';
 import WeeklyCaloriesChart from '../../components/WeeklyCaloriesChart';
+import PieChartCard from '../../components/PieChartCard';
 
 const API_URL = Config.API_BASE_URL;
 const MAIN_FONT = 'ONE Mobile POP OTF';
@@ -14,20 +15,22 @@ const ChartScreen = () => {
 	const [mode, setMode] = useState('weekly');
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const { isReady, user } = useSession();
+	const { isReady, user, idToken } = useSession();
 
 	const calList = [1800, 1200, 800, 1600, 2000, 1400, 1000];
 	const calAvg = calList.reduce((sum, v) => sum + v, 0) / calList.length;
 
 	useEffect(() => {
 		const fetchData = async () => {
+			// const idToken = await user.getIdToken();
+
 			try {
 				setLoading(true);
 				const res = await fetch(`${API_URL}/stats/nutrition?period=${mode}`, {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						'Authorization': user.firebase_token,
+						'Authorization': `Bearer ${idToken}`,
 					},
 				});
 				if (!res.ok) {
@@ -97,8 +100,13 @@ const ChartScreen = () => {
 									<Text style={styles.avgNumber}>{calAvg}</Text>g
 								</Text>
 							</View>
-							
 						</View>
+						<PieChartCard
+							offsetX={30} offsetY={-4}
+							carb={55}
+							protein={25}
+							fat={20}
+						/>
 					</ScrollView>
 				)
 			}
