@@ -20,10 +20,10 @@ const FoodInfoScreen = ({ route, navigation }) => {
 
 	// ✅ 더미 데이터 (화면 캡처처럼 표시)
 	const [foodList, setFoodList] = useState([
-		{ name: '토마토', weight: 20 },
-		{ name: '샐러드', weight: 100 },
-		{ name: '연어', weight: 340 },
-		{ name: '레몬', weight: 30 },
+		{ name: '토마토', amount: 20 },
+		{ name: '샐러드', amount: 100 },
+		{ name: '연어', amount: 340 },
+		{ name: '레몬', amount: 30 },
 	]);
 
 	// 합계 예시(더미)
@@ -157,7 +157,7 @@ const FoodInfoScreen = ({ route, navigation }) => {
 					<View key={`${item.name}-${i}`} style={styles.foodRow}>
 						<Text style={styles.foodName}>{item.name}</Text>
 						<View style={styles.foodRight}>
-							<Text style={styles.foodWeight}>{item.weight} g</Text>
+							<Text style={styles.foodWeight}>{item.amount} g</Text>
 							<TouchableOpacity style={styles.plusBtn} onPress={() => onPressAdd(i)}>
 								<Text style={styles.plusText}>＋</Text>
 							</TouchableOpacity>
