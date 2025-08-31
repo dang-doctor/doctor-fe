@@ -1,62 +1,42 @@
 // RenderTest.jsx
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StatusBar } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; // npm install 필요
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';	// (v6) 미설치 시 npm install @react-navigation/bottom-tabs
 import { createStackNavigator } from '@react-navigation/stack';
 
-// 기존 컴포넌트들
-import CurvedTabBar from './src/navigations/CurvedTabBar';
+// 커스텀 탭바 어댑터 (CameraScreen에서 탭바 숨김 로직 포함)
+import CurvedTabBarAdapter from './src/navigations/CurvedTabBarAdapter';
+
+// 탭1: 메인
 import MainScreen from './src/screens/main/MainScreen';
+import CameraScreen from './src/screens/main/CameraScreen';
+import FoodInfoScreen from './src/screens/main/FoodInfoScreen';
+
+// 탭2: 혈당
 import BloodRecordScreen from './src/screens/blood/BloodRecordScreen';
 import BloodSugarAddScreen from './src/screens/blood/BloodSugarAddScreen';
-import MenuRecordScreen from './src/screens/menu/MenuRecordScreen';
-import ChartScreen from './src/screens/chart/ChartScreen';
-import CameraScreen from './src/screens/main/CameraScreen';
 
-// (중요) 네이밍: Tab.Screen의 name을 TABS.key(예: 'main', 'blood', 'menu', 'chat')와 맞추자.
-// 현재 상수는 { main, blood, menu, chat } 구조였음.
+// 탭3: 식단 정보
+import MenuRecordScreen from './src/screens/menu/MenuRecordScreen';
+
+// 탭4: 통계/마이페이지
+import ChartScreen from './src/screens/chart/ChartScreen';
+import MyPageScreen from './src/screens/chart/MyPageScreen';
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 /* ─────────────────────────────────────────────
- * CurvedTabBarAdapter: react-navigation <-> CurvedTabBar 연결
- * - CurvedTabBar는 기존처럼 activeKey / setActiveKey / onTabPress 로만 동작
- * - 어댑터에서 state/navigation을 받아 키 매핑 후 전달
- * ───────────────────────────────────────────── */
-const CurvedTabBarAdapter = ({ state, navigation }) => {
-	const routes = state.routes; // [{ key, name }]
-	const index = state.index;
-	const activeKey = routes[index].name; // 'main' | 'blood' | 'menu' | 'chat'
-
-	const handleTabPress = (key) => {
-		if (key !== activeKey) {
-			navigation.navigate(key);
-		}
-	};
-
-	return (
-		<CurvedTabBar
-			activeKey={activeKey}
-			onTabPress={handleTabPress}
-		/>
-	);
-};
-
-/* ─────────────────────────────────────────────
- * 각 탭 = 자체 스택
- * 필요 스크린만 우선 배치 (나중에 카메라/결과/프로필 등 추가 가능)
+ * 스택 네비게이터들
  * ───────────────────────────────────────────── */
 const MainStack = () => {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="MainHome" component={MainScreen} />
 			<Stack.Screen name="CameraScreen" component={CameraScreen} />
-			{/*
-				예: 카메라/결과 등의 후속 화면이 생기면 아래처럼 추가
-				<Stack.Screen name="CameraResult" component={CameraResultScreen} />
-			*/}
+			<Stack.Screen name="FoodInfoScreen" component={FoodInfoScreen} />
 		</Stack.Navigator>
 	);
 };
@@ -82,39 +62,42 @@ const ChartStack = () => {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="ChartHome" component={ChartScreen} />
-			{/*
-				예: 마이페이지 등
-				<Stack.Screen name="Profile" component={ProfileScreen} />
-			*/}
+			<Stack.Screen name="MyPageScreen" component={MyPageScreen} />
 		</Stack.Navigator>
 	);
 };
 
 /* ─────────────────────────────────────────────
- * 루트: 탭 네비게이터
- * CurvedTabBar는 tabBar={(props) => <CurvedTabBarAdapter {...props} />}로 장착
+ * 탭 네비게이터 (커스텀 CurvedTabBar 장착)
+ * ───────────────────────────────────────────── */
+const AppTabs = () => {
+	return (
+		<Tab.Navigator
+			screenOptions={{ headerShown: false }}
+			tabBar={(props) => <CurvedTabBarAdapter {...props} />}
+		>
+			<Tab.Screen name="main" component={MainStack} />
+			<Tab.Screen name="blood" component={BloodStack} />
+			<Tab.Screen name="menu" component={MenuStack} />
+			<Tab.Screen name="chart" component={ChartStack} />
+		</Tab.Navigator>
+	);
+};
+
+/* ─────────────────────────────────────────────
+ * 최상위 컨테이너 (로그인 분기 제거 버전)
  * ───────────────────────────────────────────── */
 const RenderTest = () => {
 	return (
 		<SafeAreaProvider>
-			<NavigationContainer>
-				<Tab.Navigator
-					screenOptions={{ headerShown: false }}
-					tabBar={(props) => <CurvedTabBarAdapter {...props} />}
-					// 필요시 초기 탭 지정: initialRouteName="blood"
-				>
-					<Tab.Screen name="main" component={MainStack} />
-					<Tab.Screen name="blood" component={BloodStack} />
-					<Tab.Screen name="menu" component={MenuStack} />
-					<Tab.Screen name="chart" component={ChartStack} />
-				</Tab.Navigator>
-			</NavigationContainer>
+			<SafeAreaView style={{ flex: 1 }}>
+				<StatusBar backgroundColor="#fff" barStyle="dark-content" />
+				<NavigationContainer>
+					<AppTabs />
+				</NavigationContainer>
+			</SafeAreaView>
 		</SafeAreaProvider>
 	);
 };
-
-const styles = StyleSheet.create({
-	// 필요 시 전역 스타일
-});
 
 export default RenderTest;

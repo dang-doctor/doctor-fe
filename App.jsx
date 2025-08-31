@@ -33,6 +33,8 @@ import LoginScreen from './src/screens/LoginScreen';
 import { SessionProvider } from './src/session/SessionProvider';
 import RenderTest from './RenderTest';
 import MyPageScreen from './src/screens/chart/MyPageScreen';
+import FoodInfoScreen from './src/screens/main/FoodInfoScreen';
+import RecordScreen from './src/screens/main/RecordScreen';
 // import { SessionProvider } from './src/session/SessionProvider'; // 세션 컨텍스트가 필요하면 주석 해제
 
 const Tab = createBottomTabNavigator();
@@ -46,7 +48,8 @@ const MainStack = () => {
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="MainHome" component={MainScreen} />
 			<Stack.Screen name="CameraScreen" component={CameraScreen} />
-			{/* <Stack.Screen name="CameraResult" component={CameraResultScreen} /> */}
+			<Stack.Screen name="FoodInfoScreen" component={FoodInfoScreen} />
+			<Stack.Screen name="RecordScreen" component={RecordScreen} />
 		</Stack.Navigator>
 	);
 };
@@ -56,7 +59,6 @@ const BloodStack = () => {
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="BloodHome" component={BloodRecordScreen} />
 			<Stack.Screen name="BloodSugarAddScreen" component={BloodSugarAddScreen} />
-			{/* <Stack.Screen name="BloodSugarEditScreen" component={BloodSugarEditScreen} /> */}
 		</Stack.Navigator>
 	);
 };
@@ -65,7 +67,6 @@ const MenuStack = () => {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="MenuHome" component={MenuRecordScreen} />
-			{/* <Stack.Screen name="FoodDetail" component={FoodDetailScreen} /> */}
 		</Stack.Navigator>
 	);
 };
@@ -75,7 +76,6 @@ const ChartStack = () => {
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="ChartHome" component={ChartScreen} />
 			<Stack.Screen name="MyPageScreen" component={MyPageScreen} />
-			{/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
 		</Stack.Navigator>
 	);
 };

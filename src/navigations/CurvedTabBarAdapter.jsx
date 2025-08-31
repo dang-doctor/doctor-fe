@@ -6,7 +6,7 @@ import TABS_CONST from '../constants/curveTabs';
 
 // 라우트 이름 매핑: 어떤 탭의 어떤 내부 화면에서 탭바를 숨길지
 const HIDE_MAP = {
-	main: new Set(['CameraScreen', 'CameraResult']), // 메인 탭 내부의 카메라 계열 화면에서 숨김
+	main: new Set(['CameraScreen',]), // 메인 탭 내부의 카메라 계열 화면에서 숨김
 	// blood: new Set(['SomeFullScreen']),
 	// menu: new Set([]),
 	// chart: new Set([]),

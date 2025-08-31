@@ -37,10 +37,22 @@ const CameraScreen = ({ navigation }) => {
 			const photo = await cameraRef.current?.takePhoto({
 				qualityPrioritization: 'balanced',
 				flash: 'off',
-				enableShutterSound: Platform.OS === 'android'
+				enableShutterSound: Platform.OS === 'android',
+				// saveToPhotos: false, // 갤러리에 저장 원하면 true로
 			});
-			// TODO: photo.path 사용
-			// console.log(photo);
+
+			// VisionCamera는 Android에서 path가 "file://" 프리픽스가 없을 수 있으므로 정규화
+			const uri = Platform.OS === 'android' && !photo.path.startsWith('file://')
+				? `file://${photo.path}`
+				: photo.path;
+
+			// 필요한 값 함께 전달 (width/height 등)
+			navigation.navigate('FoodInfoScreen', {
+				photoUri: uri,
+				width: photo.width,
+				height: photo.height,
+				// timestamp: photo.metadata?.Exif?.DateTimeOriginal ?? Date.now(),
+			});
 		} catch (e) {
 			console.warn(e);
 		}

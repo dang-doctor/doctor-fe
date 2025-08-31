@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import TABS from '../constants/curveTabs.js';
 import { Dimensions, StyleSheet, TouchableOpacity, View, Animated, Easing } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, Defs, LinearGradient, Stop, ClipPath, Rect, G, RadialGradient, Circle } from 'react-native-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const { width } = Dimensions.get("window");
@@ -60,8 +60,9 @@ const CurvedTabBar = ({ activeKey, onTabPress }) => {
         tabHeight,
         cornerRadius,
     }));
-
+	
     // btn animation
+	const SHADOW_BAND_H = 24;
     const FLOAT_HEIGHT = 30;
     const floatingAnim = useRef(new Animated.Value(0)).current;
 
@@ -114,10 +115,13 @@ const CurvedTabBar = ({ activeKey, onTabPress }) => {
         <View style={styles.root}>
             {/* NavBar Background */}
             <View style={styles.navBarBg}>
-                <Svg width={width} height={tabHeight} style={{ position: "absolute", bottom: 0 }}>
-                    <Path fill="#fff" d={curvePath} />
-                </Svg>
-            </View>
+				<Svg width={width} height={tabHeight} style={{ position: "absolute", bottom: 0 }}>
+					<Path fill="#fff" d={curvePath} />
+				</Svg>
+			</View>
+
+
+
             {/* Btn Container */}
             <View style={[styles.btnContainer, { width: tabAreaWidth, left: sidePadding }]}>
                 {TABS.map((tab, i) => {
@@ -132,8 +136,8 @@ const CurvedTabBar = ({ activeKey, onTabPress }) => {
                                     {
                                         left: x,
                                         bottom: tabHeight - curveHeight - floatingBtnSize / 2 + 30,
-                                        transform: [{translateY}],
-                                    }
+                                        transform: [{ translateY }],
+                                    },
                                 ]}
                             >
                                 <TouchableOpacity
@@ -141,7 +145,7 @@ const CurvedTabBar = ({ activeKey, onTabPress }) => {
                                     onPress={() => onTabPress(tab.key)}
                                     activeOpacity={0.85}
                                 >
-                                    <Ionicons name={tab.icon} size={30} color="#929EFF" />
+                                    <Ionicons name={tab.icon} size={30} color="#6B78FF" />
                                 </TouchableOpacity>
                             </Animated.View>
                         );
@@ -202,18 +206,21 @@ const styles = StyleSheet.create({
         pointerEvents: "box-none",
     },
     floatingBtn: {
-        position: "absolute",
-        width: floatingBtnSize,
-        height: floatingBtnSize,
-        borderRadius: floatingBtnSize / 2,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-        shadowColor: "transparent",
-        elevation: 0,
-        zIndex: 3,
-        overflow: "visible",
-    },
+		position: "absolute",
+		width: floatingBtnSize,
+		height: floatingBtnSize,
+		borderRadius: floatingBtnSize / 2,
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center",
+		shadowColor: "#444",
+		shadowOpacity: 0.14,
+		shadowOffset: { width: 0, height: 0 },
+		shadowRadius: 5,
+		elevation: 5,
+		zIndex: 3,
+		overflow: "visible",
+	},
     fab: {
         width: floatingBtnSize,
         height: floatingBtnSize,

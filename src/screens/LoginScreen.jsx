@@ -61,7 +61,10 @@ const LoginScreen = ({ navigation, onLoginSuccess }) => {
 
 			// 세션 저장 (SessionProvider 사용 시)
 			if (login) {
-				await login({ token, user });
+				await login({
+					...(user || {}),                               // 사용자 필드 루트로
+					firebase_token: user?.firebase_token || token, // 토큰을 루트 키로
+				});
 				console.log('LOGIN DEBUG → token:', token, ' user:', user);
 			}
 			// 상위 콜백도 필요하면 함께 호출
