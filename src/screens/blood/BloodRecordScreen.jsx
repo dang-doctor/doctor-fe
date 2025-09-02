@@ -29,6 +29,13 @@ const BloodRecordScreen = () => {
 	});
 	const [loading, setLoading] = useState(false);
 
+	// 환경 변수 디버깅
+	useEffect(() => {
+		console.log('[DEBUG] Config.API_BASE_URL:', Config.API_BASE_URL);
+		console.log('[DEBUG] BASE_URL constant:', BASE_URL);
+		console.log('[DEBUG] Current .env API_BASE_URL:', 'https://999a8f244a04.ngrok-free.app');
+	}, []);
+
 	// 날짜 포맷팅 함수
 	const formatDate = (date) => {
 		const year = date.getFullYear();
